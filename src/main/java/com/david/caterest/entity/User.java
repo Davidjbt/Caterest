@@ -1,17 +1,18 @@
 package com.david.caterest.entity;
 
-import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
+@Setter
+@Getter
 @RequiredArgsConstructor
-@Builder
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -26,5 +27,8 @@ public class User {
     private String city;
     private String country;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "users")
+    private List<Picture> pictures;
 
 }
+
