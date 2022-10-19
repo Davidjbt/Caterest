@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -19,7 +19,7 @@ public class UserController {
     public String getUsers(Model model, @PathVariable String id) {
         model.addAttribute("user", userService.findUserById(Long.valueOf(id)));
 
-        return "users/list";
+        return "users/user_profile";
     }
 
 

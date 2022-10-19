@@ -27,14 +27,19 @@ public class DataLoader implements CommandLineRunner {
         userRepository.save(david);
 
         david.setUserName("DavidJ");
+        david.setBiography("Albert Einstein was born at Ulm, in Württemberg, Germany, on March 14, 1879. Six weeks later the family moved to Munich, where he later on began his schooling at the Luitpold Gymnasium.");
+
+        david.setProfilePicture(ImageGetter.getImage("src/main/resources/static/images/Albert_Einstein_Head.jpg"));
 
         Picture testPicture1 = new Picture();
         Picture testPicture2 = new Picture();
         Picture testPicture3 = new Picture();
+        Picture testPicture4 = new Picture();
 
         pictureRepository.save(testPicture1);
         pictureRepository.save(testPicture2);
         pictureRepository.save(testPicture3);
+        pictureRepository.save(testPicture4);
 
         testPicture1.setDescription("Test picture 1");
         testPicture1.setDateOfPost(LocalDate.now());
@@ -57,11 +62,19 @@ public class DataLoader implements CommandLineRunner {
         david.getPictures().add(testPicture3);
         testPicture3.setUser(david);
 
+        testPicture4.setDescription("Test picture 4");
+        testPicture4.setDateOfPost(LocalDate.now());
+        Byte[] testImage4 = ImageGetter.getImage("src/main/resources/static/images/wallpapersden.com_cat-lying-cool-cat_2560x1440.jpg");
+        testPicture4.setImage(testImage4);
+        david.getPictures().add(testPicture4);
+        testPicture4.setUser(david);
+
         userRepository.save(david);
 
         pictureRepository.save(testPicture1);
         pictureRepository.save(testPicture2);
         pictureRepository.save(testPicture3);
+        pictureRepository.save(testPicture4);
     }
 }
 

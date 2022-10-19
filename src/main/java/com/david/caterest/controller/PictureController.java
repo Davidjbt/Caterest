@@ -29,7 +29,7 @@ public class PictureController {
     //todo to render multiples images, using a th:foreach might do the trick, adding a image id from the view.
     //todo read through documentation to understand this method.
     @GetMapping("/user/{id}/image/{index}")
-    public void renderImageFromDB(@PathVariable String id, @PathVariable String index, HttpServletResponse response) throws IOException {
+    public void renderUserPictureFromDB(@PathVariable String id, @PathVariable String index, HttpServletResponse response) throws IOException {
         User user = userService.findUserById(Long.valueOf(id));
         Picture picture = user.getPictures().get(Integer.parseInt(index));
 
@@ -46,4 +46,25 @@ public class PictureController {
             IOUtils.copy(is, response.getOutputStream());
         }
     }
+
+    @GetMapping("/user/{id}/profilePicture")
+    public void renderUserProfilePictureFromDB(@PathVariable String id, HttpServletResponse response) throws IOException {
+        User user = userService.findUserById(Long.valueOf(id));
+        Byte[] profilePicture = user.getProfilePicture();
+
+        if (profilePicture.length != 0) {
+            byte[] byteArray = new byte[profilePicture.length];
+            int i = 0;
+
+            for (Byte wrappedByte : profilePicture){
+                byteArray[i++] = wrappedByte; //auto unboxing
+            }
+
+            response.setContentType("image/jpeg");
+            InputStream is = new ByteArrayInputStream(byteArray);
+            IOUtils.copy(is, response.getOutputStream());
+        }
+
+    }
+
 }
