@@ -4,6 +4,7 @@ import com.david.caterest.entity.Picture;
 import com.david.caterest.repository.PictureRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,5 +23,9 @@ public class PictureServiceImpl implements PictureService {
         if (picture.isEmpty()) return null;
 
         return picture.get();
+    }
+
+    public List<Picture> findAllPicturesByOrderByDateOfPostDesc() {
+        return pictureRepository.findAllByOrderByDateOfPostDesc();
     }
 }

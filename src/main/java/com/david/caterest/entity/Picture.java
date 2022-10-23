@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -20,5 +20,5 @@ public class Picture {
     private String description;
     @Lob
     private Byte[] image;
-    private LocalDate dateOfPost;
+    private LocalDateTime dateOfPost;
 }

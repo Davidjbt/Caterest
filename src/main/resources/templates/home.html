@@ -29,20 +29,13 @@
     <i class="fa fa-bars" onclick="showMenu()"></i>
 </nav>
 
-<!--<section class="profile">-->
-<section class="profile-header">
-    <img th:src="@{'/user/' + ${user.id} + '/profilePicture/'}" alt="Profile">
-    <p th:text="${user.userName}" id="username"></p>
-    <p th:text="${user.biography}" id="user-biography"></p>
-</section>
-
-<section class="profile-gallery">
+<section class="home-gallery">
     <div class="profile-picture"
-         th:each="i: ${#numbers.sequence(0, user.pictures.size() - 1)}">
-        <img th:src="@{'/user/' + ${user.id} + '/image/' + ${i}}">
+         th:each="i: ${#numbers.sequence(0, indices.size() - 1)}">
+        <img th:src="@{'/home/' + ${indices.get(i)}}">
     </div>
 </section>
-<!--</section>-->
+
 
 <section class="footer">
     <h4>About Us</h4>

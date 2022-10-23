@@ -8,7 +8,8 @@ import com.david.caterest.service.ImageGetter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -42,28 +43,28 @@ public class DataLoader implements CommandLineRunner {
         pictureRepository.save(testPicture4);
 
         testPicture1.setDescription("Test picture 1");
-        testPicture1.setDateOfPost(LocalDate.now());
+        testPicture1.setDateOfPost(LocalDateTime.of(2022, 10, 23, 14, 1));
         Byte[] testImage1 = ImageGetter.getImage("src/main/resources/static/images/test1.jpg");
         testPicture1.setImage(testImage1);
         david.getPictures().add(testPicture1);
         testPicture1.setUser(david);
 
         testPicture2.setDescription("Test picture 2");
-        testPicture2.setDateOfPost(LocalDate.now());
+        testPicture2.setDateOfPost(LocalDateTime.of(2022, 10, 23, 12, 0));
         Byte[] testImage2 = ImageGetter.getImage("src/main/resources/static/images/test2.jpg");
         testPicture2.setImage(testImage2);
         david.getPictures().add(testPicture2);
         testPicture2.setUser(david);
 
         testPicture3.setDescription("Test picture 3");
-        testPicture3.setDateOfPost(LocalDate.now());
+        testPicture3.setDateOfPost(LocalDateTime.of(2022, 10, 22, 21, 41));
         Byte[] testImage3 = ImageGetter.getImage("src/main/resources/static/images/test3.jpg");
         testPicture3.setImage(testImage3);
         david.getPictures().add(testPicture3);
         testPicture3.setUser(david);
 
         testPicture4.setDescription("Test picture 4");
-        testPicture4.setDateOfPost(LocalDate.now());
+        testPicture4.setDateOfPost(LocalDateTime.of(2022, 10, 22, 19, 8));
         Byte[] testImage4 = ImageGetter.getImage("src/main/resources/static/images/wallpapersden.com_cat-lying-cool-cat_2560x1440.jpg");
         testPicture4.setImage(testImage4);
         david.getPictures().add(testPicture4);
@@ -75,6 +76,12 @@ public class DataLoader implements CommandLineRunner {
         pictureRepository.save(testPicture2);
         pictureRepository.save(testPicture3);
         pictureRepository.save(testPicture4);
+
+        List<Picture> pictures = pictureRepository.findAllByOrderByDateOfPostDesc();
+
+        for (int i = 0;  i < pictures.size(); i++) {
+            System.out.println(i + " id: " + pictures.get(i).getId() + " " + pictures.get(i).getDateOfPost());
+        }
     }
 }
 
