@@ -32,14 +32,14 @@
 <!--<section class="profile">-->
 <section class="profile-header">
     <img th:src="@{'/user/' + ${user.id} + '/profilePicture/'}" alt="Profile">
-    <p th:text="${user.userName}" id="username"></p>
+    <p th:text="${user.username}" id="username"></p>
     <p th:text="${user.biography}" id="user-biography"></p>
 </section>
 
 <section class="profile-gallery">
     <div class="profile-picture"
          th:each="i: ${#numbers.sequence(0, user.pictures.size() - 1)}">
-        <img th:src="@{'/user/' + ${user.id} + '/image/' + ${i}}">
+        <img th:src="@{'/user/' + ${user.id} + '/picture/' + ${i}}">
     </div>
 </section>
 <!--</section>-->
