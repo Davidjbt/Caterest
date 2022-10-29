@@ -17,6 +17,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -31,4 +36,13 @@ public class UserServiceImpl implements UserService {
         return userOptional.get();
     }
 
+    @Override
+    public User findUserByUsernameAndPassword(String username, String password) {
+        Optional<User> userOptional = userRepository.findUserByUsernameAndPassword(username, password);
+
+        //todo Implement 404 page using a handler
+        if (userOptional.isEmpty()) return null;
+
+        return userOptional.get();
+    }
 }

@@ -20,9 +20,11 @@ public class User {
     private Long id;
     @Lob
     private Byte[] profilePicture;
-    private String userName;
+    private String username;
     private String firstName;
     private String lastName;
+    private String email;
+    private String password;
     private String biography;
     private LocalDate dateOfBirth;
     private String telephoneNumber;

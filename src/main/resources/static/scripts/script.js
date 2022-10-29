@@ -7,3 +7,8 @@ function showMenu() {
 function hideMenu() {
     navLinks.style.right = "-200px";
 }
+
+var loadFile = function (event) {
+    var image = document.getElementById('output');
+    image.src = URL.createObjectURL(event.target.files[0])
+};

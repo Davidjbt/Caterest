@@ -27,7 +27,8 @@ public class DataLoader implements CommandLineRunner {
         User david = new User();
         userRepository.save(david);
 
-        david.setUserName("DavidJ");
+        david.setUsername("DavidJ");
+        david.setPassword("1234");
         david.setBiography("Albert Einstein was born at Ulm, in Württemberg, Germany, on March 14, 1879. Six weeks later the family moved to Munich, where he later on began his schooling at the Luitpold Gymnasium.");
 
         david.setProfilePicture(ImageGetter.getImage("src/main/resources/static/images/Albert_Einstein_Head.jpg"));

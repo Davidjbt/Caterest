@@ -25,13 +25,14 @@ public class UserController {
     public String getUsers(Model model, @PathVariable String id) {
         model.addAttribute("user", userService.findUserById(Long.valueOf(id)));
 
-        return "users/user_profile";
+        return "user/user-profile";
     }
 
     @GetMapping({"/", "/home", "/home.html"})
     public String getHome(Model model) {
         List<Long> ids = new ArrayList<>();
 
+        // This list will have the pictures ids in a reverse chronological order.
         pictureService.findAllPicturesByOrderByDateOfPostDesc().forEach(picture -> ids.add(picture.getId()));
         model.addAttribute("indices", ids);
 
