@@ -30,15 +30,18 @@
 </nav>
 
 <section class="picture">
+    <section class="picture-header">
+        <a th:href="@{'/user/' + ${picture.user.id}}"><img th:src="@{'/user/' + ${picture.user.id} + '/profilePicture'}"></a>
+        <p th:text="${picture.user.username}"></p>
+    </section>
+
     <section class="picture-image">
         <img th:src="@{'/picture/' + ${picture.id}}">
     </section>
     <section class="picture-description">
         <p th:text="${picture.description}"></p>
     </section>
-
 </section>
-
 
 <section class="footer">
     <h4>About Us</h4>

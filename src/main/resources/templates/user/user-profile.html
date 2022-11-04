@@ -38,8 +38,9 @@
 
 <section class="profile-gallery">
     <div class="profile-picture"
-         th:each="i: ${#numbers.sequence(0, user.pictures.size() - 1)}">
-        <img th:src="@{'/user/' + ${user.id} + '/picture/' + ${i}}">
+         th:each="i: ${#numbers.sequence(user.pictures.size() - 1, 0)}">
+<!--        the sequence goes from the last index to 0 because new pictures are added at the top-->
+        <img th:src="@{'/user/' + ${user.id} + '/picture/' + ${i}}" alt="picture">
     </div>
 </section>
 <!--</section>-->

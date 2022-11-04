@@ -32,7 +32,7 @@
 <section class="home-gallery">
     <div class="profile-picture"
          th:each="i: ${#numbers.sequence(0, indices.size() - 1)}">
-        <img th:src="@{'/home/' + ${indices.get(i)}}">
+        <a th:href="@{'/picture/' + ${indices.get(i)} + '/show'}"><img th:src="@{'/home/' + ${indices.get(i)}}"></a>
     </div>
 </section>
 
