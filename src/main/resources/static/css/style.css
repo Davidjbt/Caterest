@@ -556,16 +556,12 @@ h3 {
     padding: 10px;
 }
 
-/*------ Picture -------*/
+/*------ Picture Show -------*/
 .picture {
     max-width: 1200px;
     /*max-width: 46.875%;*/
     margin: auto;
     background: #ffffff;
-}
-
-.picture div {
-
 }
 
 .picture img {
@@ -576,14 +572,27 @@ h3 {
 }
 
 .picture-header {
-    margin: 25px 50px;
-    display: inline-block;
-    /*float: left;*/
+    height: 75px;
+    padding: 10px 0 10px 25px;
+    display: flex;
+}
+
+.picture-header div {
+    margin-left: 10px;
+}
+
+.picture div p {
+    margin-top: 15px;
 }
 
 .picture-header img {
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
     object-fit: cover;
     border-radius: 50%;
+    float: left;
+}
+
+.picture-description {
+    padding-left: 25px;
 }
