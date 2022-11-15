@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -21,4 +23,6 @@ public class Picture {
     @Lob
     private Byte[] image;
     private LocalDateTime dateOfPost;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "picture")
+    private List<Comment> comments = new ArrayList<>();
 }
