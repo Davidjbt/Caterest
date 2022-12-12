@@ -9,4 +9,5 @@ public interface UserService {
     User saveUser(User user);
     User findUserById(Long id);
     User findUserByUsernameAndPassword(String username, String password);
+//    Boolean checkIfExits(User user);
 }

@@ -1,11 +1,15 @@
 package com.david.caterest.controller;
 
+import com.david.caterest.entity.User;
 import com.david.caterest.service.PictureService;
 import com.david.caterest.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,5 +41,14 @@ public class UserController {
         model.addAttribute("indices", ids);
 
         return "home";
+    }
+
+    @PostMapping("/user")
+    public String save(@ModelAttribute("user") User user, BindingResult bindingResult) {
+        if (userService.checkIfExits(user)) {
+
+        }
+
+        return "redirect:/user/";
     }
 }

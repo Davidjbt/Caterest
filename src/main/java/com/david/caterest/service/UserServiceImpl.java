@@ -17,13 +17,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveUser(User user) {
-        return userRepository.save(user);
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override
@@ -45,4 +45,12 @@ public class UserServiceImpl implements UserService {
 
         return userOptional.get();
     }
+
+    public User findUserByUsername(String username) {
+        Optional<User> userOptional = userRepository.findUserByUsername(username);
+
+        return null;
+    }
+
+
 }
