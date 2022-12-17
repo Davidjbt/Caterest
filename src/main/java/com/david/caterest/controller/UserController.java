@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +57,14 @@ public class UserController {
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public String handleConflictError(Exception exception) {
+    public ModelAndView handleConflictError(Exception exception) {
         // todo figure out ResponseStatusException
 
-        return "error/400";
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("error/400");
+        modelAndView.addObject("exception", exception);
+
+        return modelAndView;
     }
 }
