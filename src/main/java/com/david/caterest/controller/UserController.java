@@ -3,13 +3,12 @@ package com.david.caterest.controller;
 import com.david.caterest.entity.User;
 import com.david.caterest.service.PictureService;
 import com.david.caterest.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +44,21 @@ public class UserController {
 
     @PostMapping("/user")
     public String save(@ModelAttribute("user") User user, BindingResult bindingResult) {
-        if (userService.checkIfExits(user)) {
+        if (userService.findUserByUsername(user.getUsername()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists.");
+        }
 
+        if (userService.findUserByEmail(user.getEmail()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already registered");
         }
 
         return "redirect:/user/";
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public String handleConflictError(Exception exception) {
+        // todo figure out ResponseStatusException
+
+        return "error/400";
     }
 }

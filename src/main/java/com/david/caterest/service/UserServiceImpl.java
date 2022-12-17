@@ -49,8 +49,19 @@ public class UserServiceImpl implements UserService {
     public User findUserByUsername(String username) {
         Optional<User> userOptional = userRepository.findUserByUsername(username);
 
-        return null;
+        //todo Implement 404 page using a handler
+        if (userOptional.isEmpty()) return null;
+
+        return userOptional.get();
     }
 
+    public User findUserByEmail(String email) {
+        Optional<User> userOptional = userRepository.findUserByEmail(email);
+
+        //todo Implement 404 page using a handler
+        if (userOptional.isEmpty()) return null;
+
+        return userOptional.get();
+    }
 
 }
