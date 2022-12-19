@@ -43,6 +43,13 @@ public class UserController {
         return "home";
     }
 
+    @GetMapping("/user/new")
+    public String newUser(Model model) {
+        model.addAttribute("user", new User());
+
+        return "user/user-form";
+    }
+
     @PostMapping("/user")
     public String save(@ModelAttribute("user") User user, BindingResult bindingResult) {
         if (userService.findUserByUsername(user.getUsername()) != null) {
