@@ -60,7 +60,9 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already registered");
         }
 
-        return "redirect:/user/";
+        User savedUser = userService.saveUser(user);
+
+        return "redirect:/user/" + savedUser.getId();
     }
 
     @ExceptionHandler(ResponseStatusException.class)
