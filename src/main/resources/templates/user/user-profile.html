@@ -38,10 +38,12 @@
 
 <section class="profile-gallery">
     <div class="profile-picture"
+         th:if="${user.pictures.size() > 0}"
          th:each="i: ${#numbers.sequence(user.pictures.size() - 1, 0)}">
 <!--        the sequence goes from the last index to 0 because new pictures are added at the top-->
         <a th:href="@{'/picture/' + ${user.pictures.get(i).id} + '/show'}"><img th:src="@{'/user/' + ${user.id} + '/picture/' + ${i}}" alt="picture"></a>
     </div>
+    <div th:unless="${user.pictures.size() > 0}">No Images</div>
 </section>
 <!--</section>-->
 
