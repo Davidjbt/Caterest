@@ -29,7 +29,7 @@
 </nav>
 
 <section class="user-form">
-  <form th:object="${user}" th:action="@{/user/}"  method="post">
+  <form th:object="${user}" th:action="@{/user/}"  method="post" enctype="multipart/form-data">
     <!--        <input type="hidden" th:field="*{user.id}">-->
     <div>
       <label><b>Username</b></label>
@@ -47,7 +47,7 @@
     </div>
 
     <div>
-      <input type="file" name="inpFile" id="inpFile">
+      <input type="file" accept="image/*" name="inpFile" id="inpFile">
       <div class="image-preview" id="imagePreview">
         <img src="" alt="Image Preview" class="image-preview__image">
         <span class="image-preview__default-text">Image Preview</span>

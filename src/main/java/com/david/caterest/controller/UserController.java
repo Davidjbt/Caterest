@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,15 +52,20 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public String save(@ModelAttribute("user") User user, BindingResult bindingResult) {
+    public String save(@ModelAttribute("user") User user, @RequestParam("inpFile") MultipartFile file, BindingResult bindingResult) {
+        System.out.println("Hi there 1");
+
         if (userService.findUserByUsername(user.getUsername()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists.");
         }
+        System.out.println("Hi there 2");
 
         if (userService.findUserByEmail(user.getEmail()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already registered");
         }
 
+
+        userService.saveImageFile(user, file);
         User savedUser = userService.saveUser(user);
 
         return "redirect:/user/" + savedUser.getId();

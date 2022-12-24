@@ -45,11 +45,9 @@ public class PictureServiceImpl implements PictureService {
 
         try {
             // No need to deal with null case as this was checked before.
-
             Byte[] byteObjects = new Byte[file.getBytes().length];
 
             int i = 0;
-
             for (byte b : file.getBytes()){
                 byteObjects[i++] = b;
             }
