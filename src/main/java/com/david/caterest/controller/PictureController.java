@@ -90,7 +90,7 @@ public class PictureController {
     }
 
     @PostMapping("/picture")
-    public String save(@ModelAttribute("picture") Picture picture, @RequestParam("image_file") MultipartFile file, BindingResult bindingResult) {
+    public String save(@ModelAttribute("picture") Picture picture, @RequestParam("inpFile") MultipartFile file, BindingResult bindingResult) {
         String username = picture.getUser().getUsername();
         String password = picture.getUser().getPassword();
 
