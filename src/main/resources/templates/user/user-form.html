@@ -15,14 +15,12 @@
 <body>
 <!--<section class="header">-->
 <nav class="nav-bar">
-  <a href="../home.html" th:href="@{/home.html}"><img th:src="@{/images/logo.png}" alt="Caterest"></a>
+  <a href="../home.html" th:href="@{/home}"><img th:src="@{/images/logo.png}" alt="Caterest"></a>
   <div class="nav-links" id="navLinks">
     <i class="fa fa-times" onclick="hideMenu()"></i>
     <ul>
-      <li><a href="../home.html" th:href="@{/home.html}">HOME</a></li>
-      <li><a href="../about.html">ABOUT</a></li>
-      <li><a href="">COURSE</a></li>
-      <li><a href="">BLOG</a></li>
+      <li><a href="../home.html" th:href="@{/home}">HOME</a></li>
+      <li><a href="" th:href="@{/user/new}">SIGN UP</a></li>
     </ul>
   </div>
   <i class="fa fa-bars" onclick="showMenu()"></i>
@@ -32,21 +30,22 @@
   <form th:object="${user}" th:action="@{/user/}"  method="post" enctype="multipart/form-data">
     <!--        <input type="hidden" th:field="*{user.id}">-->
     <div>
-      <label><b>Username</b></label>
-      <input type="text" th:field="*{username}">
+      <label for="username"><b>Username</b></label>
+      <input id="username" type="text" th:field="*{username}">
     </div>
 
     <div>
-      <label><b>Email</b></label>
-      <input type="text" th:field="*{email}">
+      <label for="email"><b>Email</b></label>
+      <input id="email" type="text" th:field="*{email}">
     </div>
 
     <div>
-      <label><b>Password</b></label>
-      <input type="password" th:field="*{password}">
+      <label for="password"><b>Password</b></label>
+      <input id="password" type="password" th:field="*{password}">
     </div>
 
     <div>
+      <label><b>Profile picture</b></label>
       <input type="file" accept="image/*" name="inpFile" id="inpFile">
       <div class="image-preview" id="imagePreview">
         <img src="" alt="Image Preview" class="image-preview__image">
@@ -55,8 +54,8 @@
     </div>
 
     <div>
-      <label><b>Biography</b></label>
-      <input type="text" th:field="*{biography}">
+      <label for="biography"><b>Biography</b></label>
+      <input id="biography" type="text" th:field="*{biography}">
     </div>
 
     <button type="submit">Submit</button>

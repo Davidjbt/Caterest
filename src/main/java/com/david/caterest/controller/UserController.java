@@ -33,7 +33,7 @@ public class UserController {
         return "user/user-profile";
     }
 
-    @GetMapping({"/", "/home", "/home.html"})
+    @GetMapping({"/", "/home"})
     public String getHome(Model model) {
         List<Long> ids = new ArrayList<>();
 

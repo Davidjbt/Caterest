@@ -16,14 +16,12 @@
 
 <!--<section class="header">-->
 <nav class="nav-bar">
-    <a href="home.html" th:href="@{/home.html}"><img th:src="@{/images/logo.png}" alt="Caterest"></a>
+    <a href="home.html" th:href="@{/home}"><img th:src="@{/images/logo.png}" alt="Caterest"></a>
     <div class="nav-links" id="navLinks">
         <i class="fa fa-times" onclick="hideMenu()"></i>
         <ul>
-            <li><a href="home.html" th:href="@{/home.html}">HOME</a></li>
-            <li><a href="about.html">ABOUT</a></li>
-            <li><a href="" th:href="@{/}">Sign up</a></li>
-            <li><a href="">BLOG</a></li>
+            <li><a href="home.html" th:href="@{/home}">HOME</a></li>
+            <li><a href="" th:href="@{/user/new}">SIGN UP</a></li>
         </ul>
     </div>
     <i class="fa fa-bars" onclick="showMenu()"></i>
