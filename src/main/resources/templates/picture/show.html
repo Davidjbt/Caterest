@@ -41,6 +41,13 @@
     <section class="picture-description">
         <p th:text="${picture.description}"></p>
     </section>
+    <section class="picture-comments">
+        <div th:if="${picture.comments.size() > 0}"
+             th:each="i: ${#numbers.sequence(picture.comments.size() - 1, 0)}">
+            There are comments
+        </div>
+        <div th:unless="${picture.comments.size() > 0}">No comments yet</div>
+    </section>
 </section>
 
 <section class="footer">
