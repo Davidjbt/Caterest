@@ -64,7 +64,6 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already registered");
         }
 
-
         userService.saveImageFile(user, file);
         User savedUser = userService.saveUser(user);
 

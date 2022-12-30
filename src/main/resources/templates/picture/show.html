@@ -47,6 +47,27 @@
             There are comments
         </div>
         <div th:unless="${picture.comments.size() > 0}">No comments yet</div>
+
+        <div th:with="comment=${T(com.david.caterest.entity.Comment).create()}" >
+            <form th:object="${comment}" th:action="@{/comment/picture.id}"  method="post">
+                <div>
+                    <label for="username"><b>Username</b></label>
+                    <input id="username" type="text" th:field="*{user.username}">
+                </div>
+
+                <div>
+                    <label for="password"><b>Password</b></label>
+                    <input id="password" type="password" th:field="*{user.password}">
+                </div>
+
+                <div>
+                    <label for="commentText" ><b>Comment</b></label>
+                    <input id="commentText" type="text" th:field="*{commentText}">
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
     </section>
 </section>
 
@@ -54,9 +75,6 @@
     <h4>About Us</h4>
     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,<br> when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
     <div class="icons">
-<!--        <i class="fa fa-facebook"></i>-->
-<!--        <i class="fa fa-twitter"></i>-->
-<!--        <i class="fa fa-instagram"></i>-->
         <a th:href="'https://www.linkedin.com/in/david-bazan-ticse/'"><i class="fa fa-linkedin"></i></a>
         <a th:href="'https://github.com/Davidjbt'"><i class="fa fa-github"></i></a>
     </div>

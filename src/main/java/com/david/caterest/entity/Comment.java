@@ -22,4 +22,8 @@ public class Comment {
     User user; // User that posted the comment
     LocalDateTime dateOfPost;
     String commentText;
+
+    public static Comment create() {
+        return new Comment();
+    }
 }
