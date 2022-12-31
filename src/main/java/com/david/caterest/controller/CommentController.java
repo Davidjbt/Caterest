@@ -2,27 +2,43 @@ package com.david.caterest.controller;
 
 import com.david.caterest.entity.Comment;
 import com.david.caterest.entity.Picture;
+import com.david.caterest.entity.User;
 import com.david.caterest.service.PictureService;
+import com.david.caterest.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class CommentController {
 
     PictureService pictureService;
+    UserService userService;
 
     public CommentController(PictureService pictureService) {
         this.pictureService = pictureService;
     }
 
     @PostMapping("/comment/{pictureId}")
-    public String newComment(String commentText, @PathVariable String pictureId) {
-        Comment comment = new Comment();
+    public String newComment(@ModelAttribute("comment") Comment comment, @PathVariable String pictureId) {
+        String username = comment.getUser().getUsername();
+        String password = comment.getUser().getPassword();
+
+        User user = userService.findUserByUsernameAndPassword(username, password);
+
+        // todo implement better error template
+        if (user == null) return "/error";
+
+        System.out.println("'" + comment.getUser().getUsername() + "' '" + comment.getUser().getPassword() + "' from Comment Controller");
+        comment.setDateOfPost(LocalDateTime.now());
 
         Picture picture = pictureService.findPictureById(Long.valueOf(pictureId));
-
-        comment.setCommentText(commentText);
+        comment.setPicture(picture);
+        picture.getComments().add(comment);
+        pictureService.savePicture(picture);
 
         return "redirect:/picture/" + pictureId + "/show";
     }
