@@ -1,5 +1,6 @@
 package com.david.caterest.controller;
 
+import com.david.caterest.entity.Comment;
 import com.david.caterest.entity.Picture;
 import com.david.caterest.entity.User;
 import com.david.caterest.service.PictureService;
@@ -78,6 +79,7 @@ public class PictureController {
     @GetMapping("/picture/{pictureId}/show")
     public String showById(@PathVariable String pictureId, Model model) {
         model.addAttribute("picture", pictureService.findPictureById(Long.valueOf(pictureId)));
+        model.addAttribute("comment", new Comment());
 
         return "picture/show";
     }

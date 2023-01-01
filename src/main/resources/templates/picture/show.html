@@ -47,27 +47,23 @@
             There are comments
         </div>
         <div th:unless="${picture.comments.size() > 0}">No comments yet</div>
+        <form th:object="${comment}" th:action="@{'/comment/' + ${picture.id}}"  method="post">
+            <div>
+                <label for="username"><b>Username</b></label>
+                <input id="username" type="text" th:field="*{user.username}">
+            </div>
 
-        <div th:with="comment=${T(com.david.caterest.entity.Comment).create()}" >
-            <form th:object="${comment}" th:action="@{/comment/picture.id}"  method="post">
-                <div>
-                    <label for="username"><b>Username</b></label>
-                    <input id="username" type="text" th:field="*{user.username}">
-                </div>
+            <div>
+                <label for="password"><b>Password</b></label>
+                <input id="password" type="password" th:field="*{user.password}">
+            </div>
 
-                <div>
-                    <label for="password"><b>Password</b></label>
-                    <input id="password" type="password" th:field="*{user.password}">
-                </div>
-
-                <div>
-                    <label for="commentText" ><b>Comment</b></label>
-                    <input id="commentText" type="text" th:field="*{commentText}">
-                </div>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-
+            <div>
+                <label for="commentText" ><b>Comment</b></label>
+                <input id="commentText" type="text" th:field="*{commentText}">
+            </div>
+            <button type="submit">Submit</button>
+        </form>
     </section>
 </section>
 

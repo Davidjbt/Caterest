@@ -15,11 +15,12 @@ import java.time.LocalDateTime;
 @Controller
 public class CommentController {
 
-    PictureService pictureService;
-    UserService userService;
+    private final PictureService pictureService;
+    private final UserService userService;
 
-    public CommentController(PictureService pictureService) {
+    public CommentController(PictureService pictureService, UserService userService) {
         this.pictureService = pictureService;
+        this.userService = userService;
     }
 
     @PostMapping("/comment/{pictureId}")
@@ -33,7 +34,10 @@ public class CommentController {
         if (user == null) return "/error";
 
         System.out.println("'" + comment.getUser().getUsername() + "' '" + comment.getUser().getPassword() + "' from Comment Controller");
+        comment.setUser(user);
         comment.setDateOfPost(LocalDateTime.now());
+
+        System.out.println(pictureId);
 
         Picture picture = pictureService.findPictureById(Long.valueOf(pictureId));
         comment.setPicture(picture);
