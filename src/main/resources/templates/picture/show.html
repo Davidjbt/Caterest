@@ -44,7 +44,8 @@
     <section class="picture-comments">
         <div th:if="${picture.comments.size() > 0}"
              th:each="i: ${#numbers.sequence(picture.comments.size() - 1, 0)}">
-            There are comments
+            <b th:text="${picture.comments.get(i).user.username}"></b>
+            <p th:text="${picture.comments.get(i).commentText}"></p>
         </div>
         <div th:unless="${picture.comments.size() > 0}">No comments yet</div>
         <form th:object="${comment}" th:action="@{'/comment/' + ${picture.id}}"  method="post">
