@@ -8,6 +8,7 @@ function hideMenu() {
     navLinks.style.right = "-200px";
 }
 
+// --- Image Previewer ---
 var loadFile = function (event) {
     var image = document.getElementById('output');
     image.src = URL.createObjectURL(event.target.files[0])
@@ -35,3 +36,17 @@ inpFile.addEventListener("change", function () {
         reader.readAsDataURL(file);
     }
 });
+// ------------------
+// --- Show/Hide Form ---
+
+const btn = document.getElementById('btn_comment')
+
+btn.addEventListener('click', () => {
+    const form = document.getElementById('form_comment');
+
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+    } else {
+        form.style.display = 'none';
+    }
+})

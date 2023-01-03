@@ -48,23 +48,22 @@
             <p th:text="${picture.comments.get(i).commentText}"></p>
         </div>
         <div th:unless="${picture.comments.size() > 0}">No comments yet</div>
-        <form th:object="${comment}" th:action="@{'/comment/' + ${picture.id}}"  method="post">
+        <form id="form_comment" th:object="${comment}" th:action="@{'/comment/' + ${picture.id}}"  method="post">
             <div>
                 <label for="username"><b>Username</b></label>
                 <input id="username" type="text" th:field="*{user.username}">
             </div>
-
             <div>
                 <label for="password"><b>Password</b></label>
                 <input id="password" type="password" th:field="*{user.password}">
             </div>
-
             <div>
                 <label for="commentText" ><b>Comment</b></label>
                 <input id="commentText" type="text" th:field="*{commentText}">
             </div>
             <button type="submit">Submit</button>
         </form>
+        <button id="btn_comment">Toggle form visibility</button>
     </section>
 </section>
 
@@ -78,7 +77,6 @@
     <p>Made with <i class="fa fa-heart-o"></i> by David</p>
 </section>
 
-<!--JavaScrip for Toggle Menu-->
 <script src="/static/scripts/script.js" th:src="@{/scripts/script.js}"></script>
 
 </body>
