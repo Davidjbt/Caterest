@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
 <!--<section class="header">-->
 <nav class="nav-bar">
     <a href="../home.html" th:href="@{/home}"><img th:src="@{/images/logo.png}" alt="Caterest"></a>
@@ -48,7 +47,8 @@
             <p th:text="${picture.comments.get(i).commentText}"></p>
         </div>
         <div th:unless="${picture.comments.size() > 0}">No comments yet</div>
-        <form id="form_comment" th:object="${comment}" th:action="@{'/comment/' + ${picture.id}}"  method="post">
+        <button id="btn-comment">Toggle form visibility</button>
+        <form id="form-comment" th:object="${comment}" th:action="@{'/comment/' + ${picture.id}}"  method="post">
             <div>
                 <label for="username"><b>Username</b></label>
                 <input id="username" type="text" th:field="*{user.username}">
@@ -61,9 +61,8 @@
                 <label for="commentText" ><b>Comment</b></label>
                 <input id="commentText" type="text" th:field="*{commentText}">
             </div>
-            <button type="submit">Submit</button>
+            <input type="Submit">
         </form>
-        <button id="btn_comment">Toggle form visibility</button>
     </section>
 </section>
 

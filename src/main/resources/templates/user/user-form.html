@@ -28,7 +28,7 @@
 </nav>
 
 <section class="user-form">
-  <form th:object="${user}" th:action="@{/user/}"  method="post" enctype="multipart/form-data">
+  <form class="form-with-previewer" th:object="${user}" th:action="@{/user/}"  method="post" enctype="multipart/form-data">
     <!--        <input type="hidden" th:field="*{user.id}">-->
     <div>
       <label for="username"><b>Username</b></label>
