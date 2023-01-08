@@ -70,6 +70,13 @@ public class UserController {
         return "redirect:/user/" + savedUser.getId();
     }
 
+    @GetMapping("/users/list")
+    public String getUsersList(Model model) {
+        model.addAttribute("users", userService.findAll());
+
+        return "user/list";
+    }
+
     @ExceptionHandler(ResponseStatusException.class)
     public ModelAndView handleConflictError(Exception exception) {
         // todo figure out ResponseStatusException

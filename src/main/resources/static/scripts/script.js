@@ -9,7 +9,7 @@ function hideMenu() {
 }
 
 // --- Image Previewer ---
-if (document.querySelector('form').classList.contains ('form-with-previewer')) {
+if (document.querySelector('form').classList.contains('form-with-previewer')) {
     var loadFile = function (event) {
         var image = document.getElementById('output');
         image.src = URL.createObjectURL(event.target.files[0])
