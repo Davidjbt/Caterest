@@ -36,12 +36,10 @@ public class DataLoader implements CommandLineRunner {
         Picture testPicture1 = new Picture();
         Picture testPicture2 = new Picture();
         Picture testPicture3 = new Picture();
-        Picture testPicture4 = new Picture();
 
         pictureRepository.save(testPicture1);
         pictureRepository.save(testPicture2);
         pictureRepository.save(testPicture3);
-        pictureRepository.save(testPicture4);
 
         testPicture1.setDescription("Test picture 1");
         testPicture1.setDateOfPost(LocalDateTime.of(2022, 10, 21, 14, 1));
@@ -64,19 +62,11 @@ public class DataLoader implements CommandLineRunner {
         david.getPictures().add(testPicture3);
         testPicture3.setUser(david);
 
-        testPicture4.setDescription("Test picture 4");
-        testPicture4.setDateOfPost(LocalDateTime.of(2022, 10, 26, 19, 8));
-        Byte[] testImage4 = ImageGetter.getImage("src/main/resources/static/images/wallpapersden.com_cat-lying-cool-cat_2560x1440.jpg");
-        testPicture4.setImage(testImage4);
-        david.getPictures().add(testPicture4);
-        testPicture4.setUser(david);
-
         userRepository.save(david);
 
         pictureRepository.save(testPicture1);
         pictureRepository.save(testPicture2);
         pictureRepository.save(testPicture3);
-        pictureRepository.save(testPicture4);
 
         List<Picture> pictures = pictureRepository.findAllByOrderByDateOfPostDesc();
 
