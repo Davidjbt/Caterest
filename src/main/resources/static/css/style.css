@@ -596,6 +596,24 @@ h3 {
     padding-left: 25px;
 }
 
+/*--- Picture comment section ---*/
+
+.picture-comments {
+    padding-left: 25px;
+}
+
+.picture-comments form {
+    display: none;
+}
+
+.comment img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    float: left;
+}
+
 
 /*--- User form ---*/
 
