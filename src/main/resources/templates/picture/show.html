@@ -48,7 +48,7 @@
             <b th:text="${picture.comments.get(i).user.username}"></b>
             <p th:text="${picture.comments.get(i).commentText}"></p>
         </div>
-        <div th:unless="${picture.comments.size() > 0}">No comments yet</div>
+        <div th:unless="${picture.comments.size() > 0}" class="no-comments">No comments yet</div>
         <button id="btn-comment">Toggle form visibility</button>
         <form id="form-comment" th:object="${comment}" th:action="@{'/comment/' + ${picture.id}}"  method="post">
             <div>

@@ -606,6 +606,10 @@ h3 {
     display: none;
 }
 
+.no-comments {
+    padding: 25px 0;
+}
+
 .comment {
     padding-bottom: 10px;
 }
@@ -627,6 +631,13 @@ h3 {
     padding-top: 5px;
 }
 
+#btn-comment {
+    text-decoration: none;
+    color: #fff;
+    padding: 12px 34px;
+    border: 1px solid #fff;
+    background: #f44336;
+}
 /*--- User form ---*/
 
 .user-form {
