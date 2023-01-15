@@ -631,6 +631,11 @@ h3 {
     padding-top: 5px;
 }
 
+.picture-comments a {
+    text-decoration: none;
+    color: inherit;
+}
+
 #btn-comment {
     text-decoration: none;
     color: #fff;
