@@ -606,11 +606,18 @@ h3 {
     display: none;
 }
 
+.picture-comments hr {
+    width: 75%;
+    margin: 10px auto;
+    text-align: center;
+}
+
 .no-comments {
     padding: 25px 0;
 }
 
 .comment {
+    padding-top: 10px;
     padding-bottom: 10px;
 }
 

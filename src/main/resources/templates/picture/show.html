@@ -41,10 +41,10 @@
         <p th:text="${picture.description}"></p>
     </section>
     <section class="picture-comments">
+        <hr>
         <div th:if="${picture.comments.size() > 0}"
              th:each="i: ${#numbers.sequence(picture.comments.size() - 1, 0)}" class="comment">
             <a th:href="@{'/user/' + ${picture.comments.get(i).user.id}}"><img th:src="@{'/user/' + ${picture.comments.get(i).user.id} + '/profilePicture'}"></a>
-
             <a th:href="@{'/user/' + ${picture.comments.get(i).user.id}}"><b th:text="${picture.comments.get(i).user.username}"></b></a>
             <p th:text="${picture.comments.get(i).commentText}"></p>
         </div>
