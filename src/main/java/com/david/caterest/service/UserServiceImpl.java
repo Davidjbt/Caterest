@@ -1,6 +1,8 @@
 package com.david.caterest.service;
 
+import com.david.caterest.dto.UserDto;
 import com.david.caterest.entity.User;
+import com.david.caterest.mapper.UserMapper;
 import com.david.caterest.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -32,13 +36,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(Long id) {
+    public UserDto findUserById(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
 
         //todo Implement 404 page using a handler
         if (userOptional.isEmpty()) return null;
 
-        return userOptional.get();
+        return userMapper.entityToDto(userOptional.get());
     }
 
     @Override

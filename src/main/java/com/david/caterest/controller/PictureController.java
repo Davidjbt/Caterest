@@ -1,5 +1,6 @@
 package com.david.caterest.controller;
 
+import com.david.caterest.dto.UserDto;
 import com.david.caterest.entity.Comment;
 import com.david.caterest.entity.Picture;
 import com.david.caterest.entity.User;
@@ -31,15 +32,9 @@ public class PictureController {
 
     //todo to render multiples images, using a th:foreach might do the trick, adding a image id from the view.
     //todo read through documentation to understand this method.
-    @GetMapping({"/user/{userId}/picture/{index}", "/picture/{pictureId}"})
-    public void renderUserPictureFromDB(@PathVariable(required = false) String userId, @PathVariable(required = false) String index, @PathVariable(required = false) String pictureId, HttpServletResponse response) throws IOException {
-        Picture picture;
-        if (userId != null) {
-            User user = userService.findUserById(Long.valueOf(userId));
-            picture = user.getPictures().get(Integer.parseInt(index));
-        } else {
-            picture = pictureService.findPictureById(Long.valueOf(pictureId));
-        }
+    @GetMapping("/picture/{pictureId}")
+    public void renderUserPictureFromDB(@PathVariable String pictureId, HttpServletResponse response) throws IOException {
+        Picture picture = pictureService.findPictureById(Long.valueOf(pictureId));
         Byte[] image = picture.getImage();
 
         renderImage(response, image);
@@ -47,7 +42,7 @@ public class PictureController {
 
     @GetMapping("/user/{userId}/profilePicture")
     public void renderUserProfilePictureFromDB(@PathVariable String userId, HttpServletResponse response) throws IOException {
-        User user = userService.findUserById(Long.valueOf(userId));
+        UserDto user = userService.findUserById(Long.valueOf(userId));
         Byte[] image = user.getProfilePicture();
 
         renderImage(response, image);
