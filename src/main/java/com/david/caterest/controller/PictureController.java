@@ -86,28 +86,29 @@ public class PictureController {
         return "picture/picture-form";
     }
 
-    @PostMapping("/picture")
-    public String save(@ModelAttribute("picture") Picture picture, @RequestParam("inpFile") MultipartFile file, BindingResult bindingResult) {
-        String username = picture.getUser().getUsername();
-        String password = picture.getUser().getPassword();
-
-        User user = userService.findUserByUsernameAndPassword(username, password);
-
-        // todo implement better error template
-        if (user == null) return "/error";
-
-        System.out.println("'" + picture.getUser().getUsername() + "' '" + picture.getUser().getPassword() + "'");
-
-        pictureService.saveImageFile(picture, file);
-        picture.setDateOfPost(LocalDateTime.now());
-
-        user.getPictures().add(picture);
-        picture.setUser(user);
-
-        pictureService.savePicture(picture);
-        userService.saveUser(user);
-        Picture savedPicture = user.getPictures().get(user.getPictures().indexOf(picture));
-
-        return "redirect:/picture/" + savedPicture.getId() + "/show";
-    }
+    // todo change function when implementing JWT
+//    @PostMapping("/picture")
+//    public String save(@ModelAttribute("picture") Picture picture, @RequestParam("inpFile") MultipartFile file, BindingResult bindingResult) {
+//        String username = picture.getUser().getUsername(); // Will get replaced when implementing JWT
+////        String password = picture.getUser().getPassword();
+//
+//        UserDto user = userService.findUserByUsername(username);
+//
+//        // todo implement better error template
+//        if (user == null) return "/error";
+//
+////        System.out.println("'" + picture.getUser().getUsername() + "' '" + picture.getUser().getPassword() + "'");
+//
+//        pictureService.saveImageFile(picture, file);
+//        picture.setDateOfPost(LocalDateTime.now());
+//
+//        user.getPictures().add(picture);
+//        picture.setUser(user);
+//
+//        pictureService.savePicture(picture);
+//        userService.saveUser(user);
+//        Picture savedPicture = user.getPictures().get(user.getPictures().indexOf(picture));
+//
+//        return "redirect:/picture/" + savedPicture.getId() + "/show";
+//    }
 }

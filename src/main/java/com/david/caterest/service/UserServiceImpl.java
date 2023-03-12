@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -26,8 +27,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDto> findAll() {
+        return userRepository.findAll().stream().map(userMapper::entityToDto).collect(Collectors.toList());
     }
 
     @Override
@@ -45,20 +46,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.entityToDto(userOptional.get());
     }
 
-    @Override
-    public User findUserByUsernameAndPassword(String username, String password) {
-        Optional<User> userOptional = userRepository.findUserByUsernameAndPassword(username, password);
-
-        //todo Implement 404 page using a handler
-        if (userOptional.isEmpty()) return null;
-
-        return userOptional.get();
-    }
-
-    public User findUserByUsername(String username) {
+    public UserDto findUserByUsername(String username) {
         Optional<User> userOptional = userRepository.findUserByUsername(username);
 
-        return userOptional.orElse(null);
+        return userMapper.entityToDto(userOptional.orElse(null));
     }
 
     public User findUserByEmail(String email) {
