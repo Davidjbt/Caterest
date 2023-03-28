@@ -1,0 +1,31 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+  datasource: #For MySQL Database
+    url: jdbc:mysql://localhost:3306/caterest
+    username: root
+    password: da040603
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+#For H2 In memory Database
+#  datasource:
+#    url: jdbc:h2:mem:test_db
+#  h2:
+#    console:
+#      enabled=true
+
+server:
+  error:
+    include-message: always
