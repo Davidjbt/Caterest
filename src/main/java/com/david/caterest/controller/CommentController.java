@@ -1,5 +1,6 @@
 package com.david.caterest.controller;
 
+import com.david.caterest.dto.UserDto;
 import com.david.caterest.entity.Comment;
 import com.david.caterest.entity.Picture;
 import com.david.caterest.entity.User;
@@ -23,28 +24,29 @@ public class CommentController {
         this.userService = userService;
     }
 
-    @PostMapping("/comment/{pictureId}")
-    public String newComment(@ModelAttribute("comment") Comment comment, @PathVariable String pictureId) {
-        String username = comment.getUser().getUsername();
-        String password = comment.getUser().getPassword();
-
-        User user = userService.findUserByUsernameAndPassword(username, password);
-
-        // todo implement better error template
-        if (user == null) return "/error";
-
-        System.out.println("'" + comment.getUser().getUsername() + "' '" + comment.getUser().getPassword() + "' from Comment Controller");
-        comment.setUser(user);
-        comment.setDateOfPost(LocalDateTime.now());
-
-        System.out.println(pictureId);
-
-        Picture picture = pictureService.findPictureById(Long.valueOf(pictureId));
-        comment.setPicture(picture);
-        picture.getComments().add(comment);
-        pictureService.savePicture(picture);
-
-        return "redirect:/picture/" + pictureId + "/show";
-    }
+    // Change function when implementing JWT
+//    @PostMapping("/comment/{pictureId}")
+//    public String newComment(@ModelAttribute("comment") Comment comment, @PathVariable String pictureId) {
+//        String username = comment.getUser().getUsername(); // Will not be needed when JWT is implemented.
+////        String password = comment.getUser().getPassword();
+//
+//        UserDto user = userService.findUserByUsername(username);
+//
+//        // todo implement better error template
+//        if (user == null) return "/error";
+//
+//        System.out.println("'" + comment.getUser().getUsername() + "' '" + comment.getUser().getPassword() + "' from Comment Controller");
+//        comment.setUser(user);
+//        comment.setDateOfPost(LocalDateTime.now());
+//
+//        System.out.println(pictureId);
+//
+//        Picture picture = pictureService.findPictureById(Long.valueOf(pictureId));
+//        comment.setPicture(picture);
+//        picture.getComments().add(comment);
+//        pictureService.savePicture(picture);
+//
+//        return "redirect:/picture/" + pictureId + "/show";
+//    }
 
 }

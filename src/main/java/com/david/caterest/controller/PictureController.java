@@ -1,5 +1,6 @@
 package com.david.caterest.controller;
 
+import com.david.caterest.dto.UserDto;
 import com.david.caterest.entity.Comment;
 import com.david.caterest.entity.Picture;
 import com.david.caterest.entity.User;
@@ -31,15 +32,9 @@ public class PictureController {
 
     //todo to render multiples images, using a th:foreach might do the trick, adding a image id from the view.
     //todo read through documentation to understand this method.
-    @GetMapping({"/user/{userId}/picture/{index}", "/picture/{pictureId}"})
-    public void renderUserPictureFromDB(@PathVariable(required = false) String userId, @PathVariable(required = false) String index, @PathVariable(required = false) String pictureId, HttpServletResponse response) throws IOException {
-        Picture picture;
-        if (userId != null) {
-            User user = userService.findUserById(Long.valueOf(userId));
-            picture = user.getPictures().get(Integer.parseInt(index));
-        } else {
-            picture = pictureService.findPictureById(Long.valueOf(pictureId));
-        }
+    @GetMapping("/picture/{pictureId}")
+    public void renderUserPictureFromDB(@PathVariable String pictureId, HttpServletResponse response) throws IOException {
+        Picture picture = pictureService.findPictureById(Long.valueOf(pictureId));
         Byte[] image = picture.getImage();
 
         renderImage(response, image);
@@ -47,7 +42,7 @@ public class PictureController {
 
     @GetMapping("/user/{userId}/profilePicture")
     public void renderUserProfilePictureFromDB(@PathVariable String userId, HttpServletResponse response) throws IOException {
-        User user = userService.findUserById(Long.valueOf(userId));
+        UserDto user = userService.findUserById(Long.valueOf(userId));
         Byte[] image = user.getProfilePicture();
 
         renderImage(response, image);
@@ -91,28 +86,29 @@ public class PictureController {
         return "picture/picture-form";
     }
 
-    @PostMapping("/picture")
-    public String save(@ModelAttribute("picture") Picture picture, @RequestParam("inpFile") MultipartFile file, BindingResult bindingResult) {
-        String username = picture.getUser().getUsername();
-        String password = picture.getUser().getPassword();
-
-        User user = userService.findUserByUsernameAndPassword(username, password);
-
-        // todo implement better error template
-        if (user == null) return "/error";
-
-        System.out.println("'" + picture.getUser().getUsername() + "' '" + picture.getUser().getPassword() + "'");
-
-        pictureService.saveImageFile(picture, file);
-        picture.setDateOfPost(LocalDateTime.now());
-
-        user.getPictures().add(picture);
-        picture.setUser(user);
-
-        pictureService.savePicture(picture);
-        userService.saveUser(user);
-        Picture savedPicture = user.getPictures().get(user.getPictures().indexOf(picture));
-
-        return "redirect:/picture/" + savedPicture.getId() + "/show";
-    }
+    // todo change function when implementing JWT
+//    @PostMapping("/picture")
+//    public String save(@ModelAttribute("picture") Picture picture, @RequestParam("inpFile") MultipartFile file, BindingResult bindingResult) {
+//        String username = picture.getUser().getUsername(); // Will get replaced when implementing JWT
+////        String password = picture.getUser().getPassword();
+//
+//        UserDto user = userService.findUserByUsername(username);
+//
+//        // todo implement better error template
+//        if (user == null) return "/error";
+//
+////        System.out.println("'" + picture.getUser().getUsername() + "' '" + picture.getUser().getPassword() + "'");
+//
+//        pictureService.saveImageFile(picture, file);
+//        picture.setDateOfPost(LocalDateTime.now());
+//
+//        user.getPictures().add(picture);
+//        picture.setUser(user);
+//
+//        pictureService.savePicture(picture);
+//        userService.saveUser(user);
+//        Picture savedPicture = user.getPictures().get(user.getPictures().indexOf(picture));
+//
+//        return "redirect:/picture/" + savedPicture.getId() + "/show";
+//    }
 }
