@@ -31,7 +31,7 @@
 <!--<section class="profile">-->
 <section class="profile-header">
     <img th:src="@{'/user/' + ${user.id} + '/profilePicture/'}" alt="Profile">
-    <p th:text="${user.username}" id="username"></p>
+    <p th:text="${user.getDisplayName}" id="username"></p>
     <p th:text="${user.biography}" id="user-biography"></p>
 </section>
 
