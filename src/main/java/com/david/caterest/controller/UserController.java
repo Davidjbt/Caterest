@@ -55,7 +55,7 @@ public class UserController {
     public String save(@ModelAttribute("user") User user, @RequestParam("inpFile") MultipartFile file, BindingResult bindingResult) {
         System.out.println("Hi there 1");
 
-        if (userService.findUserByUsername(user.getUsername()) != null) {
+        if (userService.findUserByUsername(user.getDisplayName()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists.");
         }
         System.out.println("Hi there 2");

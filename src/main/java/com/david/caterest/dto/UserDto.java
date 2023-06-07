@@ -9,7 +9,7 @@ public class UserDto {
 
     private long id;
     private Byte[] profilePicture;
-    private String username;
+    private String displayName;
     private String biography;
     private List<PictureDto> pictures;
 }

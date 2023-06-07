@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User findUserByEmail(String email) {
-        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        Optional<User> userOptional = userRepository.findByEmail(email);
 
         return userOptional.orElse(null);
     }

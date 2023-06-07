@@ -31,7 +31,7 @@
     <section class="picture-header">
         <a th:href="@{'/user/' + ${picture.user.id}}"><img th:src="@{'/user/' + ${picture.user.id} + '/profilePicture'}"></a>
         <div>
-            <p id="picture-username" th:text="${picture.user.username}"></p>
+            <p id="picture-username" th:text="${picture.user.displayName}"></p>
         </div>
     </section>
     <section class="picture-image">
@@ -45,7 +45,7 @@
         <div th:if="${picture.comments.size() > 0}"
              th:each="i: ${#numbers.sequence(picture.comments.size() - 1, 0)}" class="comment">
             <a th:href="@{'/user/' + ${picture.comments.get(i).user.id}}"><img th:src="@{'/user/' + ${picture.comments.get(i).user.id} + '/profilePicture'}"></a>
-            <a th:href="@{'/user/' + ${picture.comments.get(i).user.id}}"><b th:text="${picture.comments.get(i).user.username}"></b></a>
+            <a th:href="@{'/user/' + ${picture.comments.get(i).user.id}}"><b th:text="${picture.comments.get(i).user.displayName}"></b></a>
             <p th:text="${picture.comments.get(i).commentText}"></p>
         </div>
         <div th:unless="${picture.comments.size() > 0}" class="no-comments">No comments yet</div>
@@ -53,7 +53,7 @@
         <form id="form-comment" th:object="${comment}" th:action="@{'/comment/' + ${picture.id}}"  method="post">
             <div>
                 <label for="username"><b>Username</b></label>
-                <input id="username" type="text" th:field="*{user.username}">
+                <input id="username" type="text" th:field="*{user.displayName}">
             </div>
             <div>
                 <label for="password"><b>Password</b></label>
