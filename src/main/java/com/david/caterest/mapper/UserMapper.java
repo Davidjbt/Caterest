@@ -10,10 +10,11 @@ import org.mapstruct.Mapping;
 public interface UserMapper {
 
     @Mapping(source = "username", target = "displayName")
-    User userDtoToUser(UserSignUpDto userDto);
-    User userDtoToUser(UserLogInDto userDto);
+    User toUser(UserSignUpDto userDto);
+    @Mapping(source = "username", target = "displayName")
+    User toUser(UserLogInDto userDto);
 
-    UserSignUpDto userToUserLogInDto(User user);
-    UserLogInDto userToUserSignUpDto(User user);
+    UserSignUpDto toUserLogInDto(User user);
+    UserLogInDto toUserSignUpDto(User user);
 
 }

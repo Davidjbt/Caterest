@@ -1,23 +1,19 @@
 package com.david.caterest.controller;
 
-import com.david.caterest.dto.UserDto;
 import com.david.caterest.entity.Comment;
 import com.david.caterest.entity.Picture;
-import com.david.caterest.entity.User;
 import com.david.caterest.service.PictureService;
 import com.david.caterest.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
 
 @Controller
 public class PictureController {
@@ -42,10 +38,10 @@ public class PictureController {
 
     @GetMapping("/user/{userId}/profilePicture")
     public void renderUserProfilePictureFromDB(@PathVariable String userId, HttpServletResponse response) throws IOException {
-        UserDto user = userService.findUserById(Long.valueOf(userId));
-        Byte[] image = user.getProfilePicture();
-
-        renderImage(response, image);
+//        UserDto user = userService.findUserById(Long.valueOf(userId));
+//        Byte[] image = user.getProfilePicture();
+//
+//        renderImage(response, image);
     }
 
     @GetMapping("/home/{pictureId}")

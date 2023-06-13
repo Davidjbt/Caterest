@@ -1,6 +1,5 @@
 package com.david.caterest.bootstrap;
 
-import com.david.caterest.entity.User;
 import com.david.caterest.repository.PictureRepository;
 import com.david.caterest.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -19,8 +18,8 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User david = new User();
-        userRepository.save(david);
+//        User david = new User();
+//        userRepository.save(david);
 //
 //        david.setUsername("DavidJ");
 //        david.setPassword("1234");

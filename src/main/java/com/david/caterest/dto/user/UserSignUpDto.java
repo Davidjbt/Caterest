@@ -1,11 +1,15 @@
 package com.david.caterest.dto.user;
 
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.time.LocalDate;
 
+@Data
 public class UserSignUpDto {
 
+    @Lob
     private Byte[] profilePicture;
     @NotNull
     private String username;

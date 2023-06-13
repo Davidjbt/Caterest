@@ -1,11 +1,12 @@
-package com.david.caterest.dto;
+package com.david.caterest.dto.user;
 
+import com.david.caterest.dto.PictureDto;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class UserDto {
+public class UserProfileDto {
 
     private long id;
     private Byte[] profilePicture;

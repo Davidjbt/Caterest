@@ -7,7 +7,7 @@ import lombok.Data;
 public class UserLogInDto {
 
     @NotNull
-    private String usernameOrEmail;
+    private String username;
     @NotNull
     private String password;
 }

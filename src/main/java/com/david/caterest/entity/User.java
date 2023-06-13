@@ -24,6 +24,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Lob
+    @Column(length = 31_457_280) // 30MB
     private Byte[] profilePicture;
 
 //    @NotBlank
