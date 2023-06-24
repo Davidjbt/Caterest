@@ -1,17 +1,8 @@
 package com.david.caterest.controller;
 
-import com.david.caterest.dto.UserDto;
-import com.david.caterest.entity.Comment;
-import com.david.caterest.entity.Picture;
-import com.david.caterest.entity.User;
 import com.david.caterest.service.PictureService;
 import com.david.caterest.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import java.time.LocalDateTime;
 
 @Controller
 public class CommentController {

@@ -1,6 +1,8 @@
 package com.david.caterest.service;
 
-import com.david.caterest.dto.UserDto;
+import com.david.caterest.dto.user.UserDto;
+import com.david.caterest.dto.user.UserSignUpDto;
+import com.david.caterest.entity.Role;
 import com.david.caterest.entity.User;
 import com.david.caterest.mapper.UserMapper;
 import com.david.caterest.repository.UserRepository;
@@ -12,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -28,11 +29,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findAll() {
-        return userRepository.findAll().stream().map(userMapper::entityToDto).collect(Collectors.toList());
+//        return userRepository.findAll().stream().map(userMapper::entityToDto).collect(Collectors.toList());
+        return null;
     }
 
-    @Override
-    public User saveUser(User user) {
+    public User addUser(UserSignUpDto userSignUpDto) {
+        User user = userMapper.toUser(userSignUpDto);
+
+        user.setRole(Role.USER);
+
         return userRepository.save(user);
     }
 
@@ -43,13 +48,15 @@ public class UserServiceImpl implements UserService {
         //todo Implement 404 page using a handler
         if (userOptional.isEmpty()) return null;
 
-        return userMapper.entityToDto(userOptional.get());
+//        return userMapper.entityToDto(userOptional.get());
+        return null;
     }
 
     public UserDto findUserByUsername(String username) {
-        Optional<User> userOptional = userRepository.findUserByUsername(username);
+        Optional<User> userOptional = userRepository.findByDisplayName(username);
 
-        return userMapper.entityToDto(userOptional.orElse(null));
+//        return userMapper.entityToDto(userOptional.orElse(null));
+        return null;
     }
 
     public User findUserByEmail(String email) {
@@ -58,9 +65,8 @@ public class UserServiceImpl implements UserService {
         return userOptional.orElse(null);
     }
 
-    @Override
     @Transactional
-    public void saveImageFile(User user, MultipartFile file) {
+    public void setUserProfilePicture(UserSignUpDto user, MultipartFile file) {
 
         try {
             // No need to deal with null case as this was checked before.
@@ -78,5 +84,10 @@ public class UserServiceImpl implements UserService {
 
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean doesUserExist(UserSignUpDto user) {
+        return userRepository.existsByEmail(user.getEmail()); // or username since the email will be used as the username from a spring security context.
     }
 }

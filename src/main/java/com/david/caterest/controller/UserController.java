@@ -1,21 +1,22 @@
 package com.david.caterest.controller;
 
+import com.david.caterest.dto.user.UserLogInDto;
+import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.entity.User;
 import com.david.caterest.service.PictureService;
 import com.david.caterest.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 public class UserController {
 
     private final UserService userService;
@@ -27,10 +28,8 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public String getUser(Model model, @PathVariable String id) {
-        model.addAttribute("user", userService.findUserById(Long.valueOf(id)));
-
-        return "user/user-profile";
+    public User getUser(@PathVariable String id) {
+        return null;
     }
 
     @GetMapping({"/", "/home"})
@@ -45,29 +44,25 @@ public class UserController {
     }
 
     @GetMapping("/user/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-
-        return "user/user-form";
+    public UserSignUpDto newUser() {
+        return new UserSignUpDto();
     }
 
-    @PostMapping("/user")
-    public String save(@ModelAttribute("user") User user, @RequestParam("inpFile") MultipartFile file, BindingResult bindingResult) {
+    @PostMapping(value = "/user", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> save(@RequestPart("user") UserSignUpDto user, @RequestPart("inpFile") MultipartFile file) {
         System.out.println("Hi there 1");
 
-        if (userService.findUserByUsername(user.getDisplayName()) != null) {
+        System.out.println(user.getEmail());
+        System.out.println(user.getUsername());
+
+        if (userService.doesUserExist(user)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists.");
         }
-        System.out.println("Hi there 2");
 
-        if (userService.findUserByEmail(user.getEmail()) != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already registered");
-        }
+        userService.setUserProfilePicture(user, file);
+        User savedUser = userService.addUser(user);
 
-        userService.saveImageFile(user, file);
-        User savedUser = userService.saveUser(user);
-
-        return "redirect:/user/" + savedUser.getId();
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     @GetMapping("/users/list")
@@ -78,14 +73,14 @@ public class UserController {
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public ModelAndView handleConflictError(Exception exception) {
+    public ResponseEntity<String> handleConflictError(ResponseStatusException exception) {
         // todo figure out ResponseStatusException
+        return ResponseEntity.status(exception.getStatusCode()).body(exception.getMessage());
+    }
 
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.setViewName("error/400");
-        modelAndView.addObject("exception", exception);
-
-        return modelAndView;
+    @PostMapping("/testing")
+    public ResponseEntity<?> testing(@ModelAttribute UserLogInDto user) {
+        System.out.println(user.toString());
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 }
