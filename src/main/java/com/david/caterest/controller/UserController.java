@@ -6,11 +6,9 @@ import com.david.caterest.entity.User;
 import com.david.caterest.service.PictureService;
 import com.david.caterest.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -46,23 +44,6 @@ public class UserController {
     @GetMapping("/user/new")
     public UserSignUpDto newUser() {
         return new UserSignUpDto();
-    }
-
-    @PostMapping(value = "/user", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<?> save(@RequestPart("user") UserSignUpDto user, @RequestPart("inpFile") MultipartFile file) {
-        System.out.println("Hi there 1");
-
-        System.out.println(user.getEmail());
-        System.out.println(user.getUsername());
-
-        if (userService.doesUserExist(user)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists.");
-        }
-
-        userService.setUserProfilePicture(user, file);
-        User savedUser = userService.addUser(user);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     @GetMapping("/users/list")

@@ -5,13 +5,21 @@ import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    @Mapping(source = "username", target = "displayName")
+    @Mappings({
+            @Mapping(source = "username", target = "displayName"),
+            @Mapping(target = "password", ignore = true),
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "role", ignore = true),
+            @Mapping(target = "pictures", ignore = true),
+
+    })
     User toUser(UserSignUpDto userDto);
-    @Mapping(source = "username", target = "displayName")
+    @Mapping(source = "email", target = "displayName")
     User toUser(UserLogInDto userDto);
 
     UserSignUpDto toUserLogInDto(User user);
