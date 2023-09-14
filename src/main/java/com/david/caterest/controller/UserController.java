@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +38,17 @@ public class UserController {
         model.addAttribute("indices", ids);
 
         return "home";
+    }
+
+    @GetMapping("/home/pictures")
+    public List<Long> getPicturesIdToRenderOnHome() {
+        List<Long> ids = new ArrayList<>();
+
+        pictureService.findAllPicturesByOrderByDateOfPostDesc().forEach(
+                picture -> ids.add(picture.getId())
+        );
+
+        return ids;
     }
 
     @GetMapping("/user/new")
