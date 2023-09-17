@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +28,7 @@ public class PictureController {
     //todo to render multiples images, using a th:foreach might do the trick, adding a image id from the view.
     //todo read through documentation to understand this method.
     @GetMapping("/picture/{pictureId}")
-    public void renderUserPictureFromDB(@PathVariable String pictureId, HttpServletResponse response) throws IOException {
+    public void renderPictureByPictureId(@PathVariable String pictureId, HttpServletResponse response) throws IOException {
         Picture picture = pictureService.findPictureById(Long.valueOf(pictureId));
         Byte[] image = picture.getImage();
 
@@ -42,14 +41,6 @@ public class PictureController {
 //        Byte[] image = user.getProfilePicture();
 //
 //        renderImage(response, image);
-    }
-
-    @GetMapping("/home/{pictureId}")
-    public void renderUserPictureToHomeFromDB(@PathVariable String pictureId, HttpServletResponse response) throws IOException {
-        Picture picture = pictureService.findPictureById(Long.valueOf(pictureId));
-        Byte[] image = picture.getImage();
-
-        renderImage(response, image);
     }
 
     private void renderImage(HttpServletResponse response, Byte[] image) throws IOException {

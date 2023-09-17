@@ -40,17 +40,6 @@ public class UserController {
         return "home";
     }
 
-    @GetMapping("/home/pictures")
-    public List<Long> getPicturesIdToRenderOnHome() {
-        List<Long> ids = new ArrayList<>();
-
-        pictureService.findAllPicturesByOrderByDateOfPostDesc().forEach(
-                picture -> ids.add(picture.getId())
-        );
-
-        return ids;
-    }
-
     @GetMapping("/user/new")
     public UserSignUpDto newUser() {
         return new UserSignUpDto();

@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void setUserProfilePicture(UserSignUpDto user, MultipartFile file) {
+    public void setUserProfilePicture(User user, MultipartFile file) {
 
         try {
             // No need to deal with null case as this was checked before.

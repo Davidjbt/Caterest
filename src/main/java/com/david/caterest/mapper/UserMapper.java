@@ -12,11 +12,11 @@ public interface UserMapper {
 
     @Mappings({
             @Mapping(source = "username", target = "displayName"),
+            @Mapping(target = "profilePicture", ignore = true),
             @Mapping(target = "password", ignore = true),
             @Mapping(target = "id", ignore = true),
             @Mapping(target = "role", ignore = true),
-            @Mapping(target = "pictures", ignore = true),
-
+            @Mapping(target = "pictures", ignore = true)
     })
     User toUser(UserSignUpDto userDto);
     @Mapping(source = "email", target = "displayName")

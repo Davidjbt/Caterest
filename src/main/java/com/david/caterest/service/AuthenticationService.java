@@ -30,9 +30,9 @@ public class AuthenticationService {
     private final UserMapper userMapper;
 
     public AuthenticationResponse register(UserSignUpDto userDto, MultipartFile profilePicture) {
-        userService.setUserProfilePicture(userDto, profilePicture);
 
         User user = userMapper.toUser(userDto);
+        userService.setUserProfilePicture(user, profilePicture);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRole(USER);
 
