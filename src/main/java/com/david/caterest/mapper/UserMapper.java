@@ -1,6 +1,7 @@
 package com.david.caterest.mapper;
 
 import com.david.caterest.dto.user.UserLogInDto;
+import com.david.caterest.dto.user.UserProfileDto;
 import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.entity.User;
 import org.mapstruct.Mapper;
@@ -24,5 +25,6 @@ public interface UserMapper {
 
     UserSignUpDto toUserLogInDto(User user);
     UserLogInDto toUserSignUpDto(User user);
+    UserProfileDto toUserProfileDto(User user);
 
 }

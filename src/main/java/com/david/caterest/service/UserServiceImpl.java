@@ -1,11 +1,16 @@
 package com.david.caterest.service;
 
 import com.david.caterest.dto.user.UserDto;
+import com.david.caterest.dto.user.UserProfileDto;
 import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.entity.Role;
 import com.david.caterest.entity.User;
 import com.david.caterest.mapper.UserMapper;
+import com.david.caterest.repository.PictureRepository;
 import com.david.caterest.repository.UserRepository;
+import com.david.caterest.util.ImageRender;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,15 +21,12 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private final PictureRepository pictureRepository;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
 
     @Override
     public List<UserDto> findAll() {
@@ -89,4 +91,23 @@ public class UserServiceImpl implements UserService {
     public boolean doesUserExist(UserSignUpDto user) {
         return userRepository.existsByEmail(user.getEmail()); // or username since the email will be used as the username from a spring security context.
     }
+
+    @Override
+    public void renderProfilePicture(String id, HttpServletResponse response) throws IOException {
+        Optional<User> user = userRepository.findById(Long.valueOf(id));
+
+        if (user.isEmpty()) return; // todo handle better
+
+        ImageRender.renderImage(response, user.get().getProfilePicture());
+    }
+
+    @Override
+    public UserProfileDto findUserProfileDetailsByDisplayName(String displayName) {
+        Optional<User> user = userRepository.findByDisplayName(displayName);
+
+        if (user.isEmpty()) return null; //todo handle better
+
+        return userMapper.toUserProfileDto(user.get());
+    }
+
 }
