@@ -1,6 +1,6 @@
 package com.david.caterest.dto.user;
 
-import com.david.caterest.dto.PictureIdDto;
+import com.david.caterest.dto.picture.PictureIdDto;
 import lombok.Data;
 import java.util.List;
 

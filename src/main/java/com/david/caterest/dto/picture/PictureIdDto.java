@@ -1,4 +1,4 @@
-package com.david.caterest.dto;
+package com.david.caterest.dto.picture;
 
 import lombok.Data;
 
