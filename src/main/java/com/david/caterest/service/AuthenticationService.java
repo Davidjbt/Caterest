@@ -68,6 +68,7 @@ public class AuthenticationService {
         cookie.setHttpOnly(true);
         cookie.setDomain("localhost");
         cookie.setPath("/");
+        cookie.setMaxAge(60 * 24);
         response.addCookie(cookie);
 
         return AuthenticationResponse.builder()

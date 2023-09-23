@@ -32,7 +32,8 @@ public class SecurityConfiguration {
                    auth.requestMatchers("/api/v1/auth/**").permitAll();
                    auth.requestMatchers("/home/**").permitAll();
                    auth.requestMatchers("/user/**").permitAll();
-                   auth.requestMatchers("/picture/**").permitAll();
+                   auth.requestMatchers("/picture/render/**").permitAll();
+                   auth.requestMatchers("/picture/post/**").permitAll();
                    auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

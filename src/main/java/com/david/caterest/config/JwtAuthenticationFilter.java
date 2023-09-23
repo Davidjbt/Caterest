@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         final String userEmail;
         final String jwt;
-        final Cookie jwtCookie = request.getCookies() != null ?  Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
+        final Cookie jwtCookie = request.getCookies() != null ? Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
                 .findFirst()
                 .orElse(null):  null;
 
