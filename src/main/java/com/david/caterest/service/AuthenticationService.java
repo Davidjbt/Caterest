@@ -63,13 +63,21 @@ public class AuthenticationService {
                 .orElseThrow(); // todo: catch the exception and handle
 
         String jwt = jwtService.generateToken(user);
+        int cookieMaxAge = 60 * 24;
 
         Cookie cookie = new Cookie("token", jwt);
         cookie.setHttpOnly(true);
         cookie.setDomain("localhost");
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 24);
+        cookie.setMaxAge(cookieMaxAge);
         response.addCookie(cookie);
+
+        Cookie expirationCookie = new Cookie("token-expiration", String.valueOf(System.currentTimeMillis() + 1000 * (cookieMaxAge)));
+        expirationCookie.setHttpOnly(false);
+        expirationCookie.setDomain("localhost");
+        expirationCookie.setPath("/");
+        expirationCookie.setMaxAge(60 * 30);
+        response.addCookie(expirationCookie);
 
         return AuthenticationResponse.builder()
                 .userId(user.getId())
