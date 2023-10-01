@@ -1,73 +1,40 @@
 package com.david.caterest.controller;
 
+import com.david.caterest.dto.user.UserLogInDto;
+import com.david.caterest.dto.user.UserProfileDto;
+import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.entity.User;
 import com.david.caterest.service.PictureService;
 import com.david.caterest.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.ModelAndView;
+import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Controller
+@RestController
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final PictureService pictureService;
 
-    public UserController(UserService userService, PictureService pictureService) {
-        this.userService = userService;
-        this.pictureService = pictureService;
-    }
-
     @GetMapping("/user/{id}")
-    public String getUser(Model model, @PathVariable String id) {
-        model.addAttribute("user", userService.findUserById(Long.valueOf(id)));
-
-        return "user/user-profile";
+    public User getUser(@PathVariable String id) {
+        return null;
     }
 
-    @GetMapping({"/", "/home"})
-    public String getHome(Model model) {
-        List<Long> ids = new ArrayList<>();
-
-        // This list will have the pictures ids in a reverse chronological order.
-        pictureService.findAllPicturesByOrderByDateOfPostDesc().forEach(picture -> ids.add(picture.getId()));
-        model.addAttribute("indices", ids);
-
-        return "home";
+    @GetMapping("/user/{userId}/profilePicture")
+    public void renderUserProfilePicture(@PathVariable String userId, HttpServletResponse response) throws IOException {
+        userService.renderProfilePicture(userId, response);
     }
 
     @GetMapping("/user/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-
-        return "user/user-form";
-    }
-
-    @PostMapping("/user")
-    public String save(@ModelAttribute("user") User user, @RequestParam("inpFile") MultipartFile file, BindingResult bindingResult) {
-        System.out.println("Hi there 1");
-
-        if (userService.findUserByUsername(user.getUsername()) != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists.");
-        }
-        System.out.println("Hi there 2");
-
-        if (userService.findUserByEmail(user.getEmail()) != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already registered");
-        }
-
-        userService.saveImageFile(user, file);
-        User savedUser = userService.saveUser(user);
-
-        return "redirect:/user/" + savedUser.getId();
+    public UserSignUpDto newUser() {
+        return new UserSignUpDto();
     }
 
     @GetMapping("/users/list")
@@ -78,14 +45,20 @@ public class UserController {
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public ModelAndView handleConflictError(Exception exception) {
+    public ResponseEntity<String> handleConflictError(ResponseStatusException exception) {
         // todo figure out ResponseStatusException
-
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.setViewName("error/400");
-        modelAndView.addObject("exception", exception);
-
-        return modelAndView;
+        return ResponseEntity.status(exception.getStatusCode()).body(exception.getMessage());
     }
+
+    @PostMapping("/testing")
+    public ResponseEntity<?> testing(@ModelAttribute UserLogInDto user) {
+        System.out.println(user.toString());
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    @GetMapping("/user/profile/{displayName}")
+    public UserProfileDto getUserProfileDetails(@PathVariable String displayName) {
+        return userService.findUserProfileDetailsByDisplayName(displayName);
+    }
+
 }

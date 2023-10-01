@@ -1,13 +1,14 @@
 package com.david.caterest.bootstrap;
 
 import com.david.caterest.entity.Picture;
+import com.david.caterest.entity.Role;
 import com.david.caterest.entity.User;
 import com.david.caterest.repository.PictureRepository;
 import com.david.caterest.repository.UserRepository;
 import com.david.caterest.service.ImageGetter;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,10 +17,12 @@ public class DataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final PictureRepository pictureRepository;
+    private final PasswordEncoder passwordEncoder;
     //https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization
-    public DataLoader(UserRepository userRepository, PictureRepository pictureRepository) {
+    public DataLoader(UserRepository userRepository, PictureRepository pictureRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.pictureRepository = pictureRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -27,11 +30,14 @@ public class DataLoader implements CommandLineRunner {
         User david = new User();
         userRepository.save(david);
 
-        david.setUsername("DavidJ");
-        david.setPassword("1234");
+
+        david.setDisplayName("DavidJ");
+        david.setEmail("test123@gmail.com");
+        david.setPassword(passwordEncoder.encode("1234"));
         david.setBiography("Albert Einstein was born at Ulm, in Württemberg, Germany, on March 14, 1879. Six weeks later the family moved to Munich, where he later on began his schooling at the Luitpold Gymnasium.");
 
         david.setProfilePicture(ImageGetter.getImage("src/main/resources/static/images/Albert_Einstein_Head.jpg"));
+        david.setRole(Role.USER);
 
         Picture testPicture1 = new Picture();
         Picture testPicture2 = new Picture();
