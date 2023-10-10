@@ -1,8 +1,10 @@
 package com.david.caterest.controller;
 
 import com.david.caterest.dto.AuthenticationResponse;
+import com.david.caterest.dto.user.UserLogInDto;
 import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.service.AuthenticationService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +19,15 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> SignUp(@RequestPart("user") UserSignUpDto user,
+    public ResponseEntity<AuthenticationResponse> register(@RequestPart("user") UserSignUpDto user,
                                                          @RequestPart("inpFile") MultipartFile profilePicture) {
         return ResponseEntity.ok(authenticationService.register(user, profilePicture));
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody UserLogInDto request,
+                                                               HttpServletResponse response) {
+        return ResponseEntity.ok(authenticationService.authenticate(request, response));
     }
 
     @ExceptionHandler(ResponseStatusException.class)

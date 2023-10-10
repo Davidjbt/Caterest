@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse { // temp for controller return
-    private String token;
+    private Long userId;
+    private String username;
 }

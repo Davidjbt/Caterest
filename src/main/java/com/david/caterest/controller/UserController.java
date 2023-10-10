@@ -1,44 +1,35 @@
 package com.david.caterest.controller;
 
 import com.david.caterest.dto.user.UserLogInDto;
+import com.david.caterest.dto.user.UserProfileDto;
 import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.entity.User;
 import com.david.caterest.service.PictureService;
 import com.david.caterest.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final PictureService pictureService;
-
-    public UserController(UserService userService, PictureService pictureService) {
-        this.userService = userService;
-        this.pictureService = pictureService;
-    }
 
     @GetMapping("/user/{id}")
     public User getUser(@PathVariable String id) {
         return null;
     }
 
-    @GetMapping({"/", "/home"})
-    public String getHome(Model model) {
-        List<Long> ids = new ArrayList<>();
-
-        // This list will have the pictures ids in a reverse chronological order.
-        pictureService.findAllPicturesByOrderByDateOfPostDesc().forEach(picture -> ids.add(picture.getId()));
-        model.addAttribute("indices", ids);
-
-        return "home";
+    @GetMapping("/user/{userId}/profilePicture")
+    public void renderUserProfilePicture(@PathVariable String userId, HttpServletResponse response) throws IOException {
+        userService.renderProfilePicture(userId, response);
     }
 
     @GetMapping("/user/new")
@@ -64,4 +55,10 @@ public class UserController {
         System.out.println(user.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
+
+    @GetMapping("/user/profile/{displayName}")
+    public UserProfileDto getUserProfileDetails(@PathVariable String displayName) {
+        return userService.findUserProfileDetailsByDisplayName(displayName);
+    }
+
 }

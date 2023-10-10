@@ -7,6 +7,8 @@ import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.entity.User;
 import com.david.caterest.mapper.UserMapper;
 import com.david.caterest.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,9 +32,9 @@ public class AuthenticationService {
     private final UserMapper userMapper;
 
     public AuthenticationResponse register(UserSignUpDto userDto, MultipartFile profilePicture) {
-        userService.setUserProfilePicture(userDto, profilePicture);
 
         User user = userMapper.toUser(userDto);
+        userService.setUserProfilePicture(user, profilePicture);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRole(USER);
 
@@ -44,11 +46,12 @@ public class AuthenticationService {
         String jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .userId(user.getId())
+                .username(user.getUsername())
                 .build();
     }
 
-    public AuthenticationResponse authenticate(UserLogInDto userDto) {
+    public AuthenticationResponse authenticate(UserLogInDto userDto, HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDto.getEmail(),
@@ -60,9 +63,25 @@ public class AuthenticationService {
                 .orElseThrow(); // todo: catch the exception and handle
 
         String jwt = jwtService.generateToken(user);
+        int cookieMaxAge = 60 * 24;
+
+        Cookie cookie = new Cookie("token", jwt);
+        cookie.setHttpOnly(true);
+        cookie.setDomain("localhost");
+        cookie.setPath("/");
+        cookie.setMaxAge(cookieMaxAge);
+        response.addCookie(cookie);
+
+        Cookie expirationCookie = new Cookie("token-expiration", String.valueOf(System.currentTimeMillis() + 1000 * (cookieMaxAge)));
+        expirationCookie.setHttpOnly(false);
+        expirationCookie.setDomain("localhost");
+        expirationCookie.setPath("/");
+        expirationCookie.setMaxAge(60 * 30);
+        response.addCookie(expirationCookie);
 
         return AuthenticationResponse.builder()
-                .token(jwt)
+                .userId(user.getId())
+                .username(user.getDisplayName())
                 .build();
     }
 
