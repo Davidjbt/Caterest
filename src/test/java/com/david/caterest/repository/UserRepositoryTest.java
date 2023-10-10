@@ -31,7 +31,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    void shouldFindStudentWhenGivenNonexistentDisplayName() {
+    void shouldNotFindStudentWhenGivenNonexistentDisplayName() {
         // given
         String email = "test123";
 
