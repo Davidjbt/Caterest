@@ -8,6 +8,7 @@ import com.david.caterest.entity.User;
 import com.david.caterest.mapper.UserMapper;
 import com.david.caterest.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.Arrays;
 
 import static com.david.caterest.entity.Role.USER;
 
@@ -30,6 +32,14 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final UserMapper userMapper;
+
+    public static AuthenticationResponse logOut(HttpServletRequest request) {
+        Cookie jwtToken = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
+                .findFirst()
+                .orElse(null);
+
+        return null;
+    }
 
     public AuthenticationResponse register(UserSignUpDto userDto, MultipartFile profilePicture) {
 

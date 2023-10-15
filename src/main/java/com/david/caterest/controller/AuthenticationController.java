@@ -4,6 +4,7 @@ import com.david.caterest.dto.AuthenticationResponse;
 import com.david.caterest.dto.user.UserLogInDto;
 import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.service.AuthenticationService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,10 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody UserLogInDto request,
                                                                HttpServletResponse response) {
         return ResponseEntity.ok(authenticationService.authenticate(request, response));
+    }
+
+    public ResponseEntity<AuthenticationResponse> logOut(HttpServletRequest request) {
+        return ResponseEntity.ok(AuthenticationService.logOut(request));
     }
 
     @ExceptionHandler(ResponseStatusException.class)
