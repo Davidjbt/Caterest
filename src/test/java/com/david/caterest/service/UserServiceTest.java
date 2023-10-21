@@ -1,5 +1,7 @@
 package com.david.caterest.service;
 
+import com.david.caterest.dto.user.UserSignUpDto;
+import com.david.caterest.entity.Role;
 import com.david.caterest.entity.User;
 import com.david.caterest.mapper.UserMapper;
 import com.david.caterest.repository.UserRepository;
@@ -29,11 +31,7 @@ class UserServiceTest {
 
     @BeforeAll
     static void beforeAll() {
-        User user = User.builder()
-                .id(1L)
-                .email("test123@gmail.com")
-                .displayName("DavidJ")
-                .build();
+
     }
 
     @Test
@@ -49,5 +47,24 @@ class UserServiceTest {
         assertThat(result).isEqualTo(users);
     }
 
+    @Test
+    void shouldAddUser() {
+        // given
+        UserSignUpDto userSignUpDto = new UserSignUpDto();
+        user = User.builder()
+                .id(1L)
+                .displayName("TestUser")
+                .email("test123@gmail.com")
+                .password("1234")
+                .role(Role.USER)
+                .build();
 
+        // when
+        when(userMapper.toUser(userSignUpDto)).thenReturn(user);
+        when(userRepository.save(user)).thenReturn(user);
+
+        // then
+        final User result = userService.addUser(userSignUpDto);
+        assertThat(result).isEqualTo(user);
+    }
 }
