@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.Arrays;
 
 import static com.david.caterest.entity.Role.USER;
@@ -32,14 +33,6 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final UserMapper userMapper;
-
-    public static AuthenticationResponse logOut(HttpServletRequest request) {
-        Cookie jwtToken = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
-                .findFirst()
-                .orElse(null);
-
-        return null;
-    }
 
     public AuthenticationResponse register(UserSignUpDto userDto, MultipartFile profilePicture) {
 
@@ -93,6 +86,27 @@ public class AuthenticationService {
                 .userId(user.getId())
                 .username(user.getDisplayName())
                 .build();
+    }
+
+    public static AuthenticationResponse logOut(HttpServletRequest request,
+                                                HttpServletResponse response) {
+        Cookie token = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
+                .findFirst()
+                .orElse(null);
+
+        if (token != null) {
+            token.setValue("");
+            token.setMaxAge(1);
+            token.setPath("/");
+            response.addCookie(token);
+
+            return AuthenticationResponse.builder()
+                    .userId(0L)
+                    .username("")
+                    .build();
+        }
+
+        return null;
     }
 
 }

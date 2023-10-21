@@ -31,8 +31,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.authenticate(request, response));
     }
 
-    public ResponseEntity<AuthenticationResponse> logOut(HttpServletRequest request) {
-        return ResponseEntity.ok(AuthenticationService.logOut(request));
+    @PostMapping("/logOut")
+    public ResponseEntity<AuthenticationResponse> logOut(HttpServletRequest request,
+                                                         HttpServletResponse response) {
+        return ResponseEntity.ok(AuthenticationService.logOut(request, response));
     }
 
     @ExceptionHandler(ResponseStatusException.class)
