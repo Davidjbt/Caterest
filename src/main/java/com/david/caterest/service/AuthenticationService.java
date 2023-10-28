@@ -82,8 +82,8 @@ public class AuthenticationService {
                 .orElse(null);
 
         if (token != null) {
-            token.setValue("");
-            token.setMaxAge(1);
+            token.setValue(null);
+            token.setMaxAge(0);
             token.setPath("/");
             response.addCookie(token);
 
@@ -98,7 +98,7 @@ public class AuthenticationService {
 
     private void addAuthenticationCookies(HttpServletResponse response, User user) {
         String jwt = jwtService.generateToken(user);
-        int cookieMaxAge = 60 * 24;
+        int cookieMaxAge = (int)(60 * 24);
 
         Cookie cookie = new Cookie("token", jwt);
         cookie.setHttpOnly(true);
@@ -111,7 +111,7 @@ public class AuthenticationService {
         expirationCookie.setHttpOnly(false);
         expirationCookie.setDomain("localhost");
         expirationCookie.setPath("/");
-        expirationCookie.setMaxAge(60 * 30);
+        expirationCookie.setMaxAge(cookieMaxAge + 2 * 60);
         response.addCookie(expirationCookie);
     }
 
