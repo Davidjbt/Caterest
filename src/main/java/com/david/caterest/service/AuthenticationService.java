@@ -33,14 +33,6 @@ public class AuthenticationService {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    public static AuthenticationResponse logOut(HttpServletRequest request) {
-        Cookie jwtToken = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
-                .findFirst()
-                .orElse(null);
-
-        return null;
-    }
-
     public AuthenticationResponse register(UserSignUpDto userDto, MultipartFile profilePicture) {
 
         User user = userMapper.toUser(userDto);
@@ -93,6 +85,27 @@ public class AuthenticationService {
                 .userId(user.getId())
                 .username(user.getDisplayName())
                 .build();
+    }
+
+    public AuthenticationResponse logOut(HttpServletRequest request,
+                                                HttpServletResponse response) {
+        Cookie token = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
+                .findFirst()
+                .orElse(null);
+
+        if (token != null) {
+            token.setValue("");
+            token.setMaxAge(1);
+            token.setPath("/");
+            response.addCookie(token);
+
+            return AuthenticationResponse.builder()
+                    .userId(0L)
+                    .username("")
+                    .build();
+        }
+
+        return null;
     }
 
 }
