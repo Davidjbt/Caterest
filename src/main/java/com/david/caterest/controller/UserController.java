@@ -14,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -32,12 +34,18 @@ public class UserController {
         userService.renderProfilePicture(userId, response);
     }
 
-    @GetMapping("/user/new")
+    @GetMapping("/find")
+    public List<UserProfileDto> findMatchingUsers(@RequestParam String query) {
+        return userService.findMatchingUsers(query);
+    }
+
+
+    @GetMapping("/new")
     public UserSignUpDto newUser() {
         return new UserSignUpDto();
     }
 
-    @GetMapping("/users/list")
+    @GetMapping("/list")
     public String getUsersList(Model model) {
         model.addAttribute("users", userService.findAll());
 
@@ -56,7 +64,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    @GetMapping("/user/profile/{displayName}")
+    @GetMapping("/profile/{displayName}")
     public UserProfileDto getUserProfileDetails(@PathVariable String displayName) {
         return userService.findUserProfileDetailsByDisplayName(displayName);
     }
