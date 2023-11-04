@@ -110,4 +110,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserProfileDto(user.get());
     }
 
+    @Override
+    public List<UserProfileDto> findMatchingUsers(String query) {
+        return userRepository.findByDisplayNameContainsIgnoreCase(query).stream()
+                .map(user -> userMapper.toUserProfileDto(user))
+                .toList();
+    }
+
 }

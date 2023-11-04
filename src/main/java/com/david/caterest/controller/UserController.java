@@ -4,7 +4,6 @@ import com.david.caterest.dto.user.UserLogInDto;
 import com.david.caterest.dto.user.UserProfileDto;
 import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.entity.User;
-import com.david.caterest.service.PictureService;
 import com.david.caterest.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,30 +13,37 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-    private final PictureService pictureService;
 
     @GetMapping("/user/{id}")
     public User getUser(@PathVariable String id) {
         return null;
     }
 
-    @GetMapping("/user/{userId}/profilePicture")
+    @GetMapping("/{userId}/profilePicture")
     public void renderUserProfilePicture(@PathVariable String userId, HttpServletResponse response) throws IOException {
         userService.renderProfilePicture(userId, response);
     }
 
-    @GetMapping("/user/new")
+    @GetMapping("/find")
+    public List<UserProfileDto> findMatchingUsers(@RequestParam String query) {
+        return userService.findMatchingUsers(query);
+    }
+
+
+    @GetMapping("/new")
     public UserSignUpDto newUser() {
         return new UserSignUpDto();
     }
 
-    @GetMapping("/users/list")
+    @GetMapping("/list")
     public String getUsersList(Model model) {
         model.addAttribute("users", userService.findAll());
 
@@ -56,7 +62,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    @GetMapping("/user/profile/{displayName}")
+    @GetMapping("/profile/{displayName}")
     public UserProfileDto getUserProfileDetails(@PathVariable String displayName) {
         return userService.findUserProfileDetailsByDisplayName(displayName);
     }

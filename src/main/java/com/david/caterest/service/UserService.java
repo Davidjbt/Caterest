@@ -22,4 +22,5 @@ public interface UserService {
     void renderProfilePicture(String id, HttpServletResponse response) throws IOException;
 
     UserProfileDto findUserProfileDetailsByDisplayName(String displayName);
+    List<UserProfileDto> findMatchingUsers(String query);
 }

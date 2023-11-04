@@ -8,6 +8,7 @@ import com.david.caterest.entity.User;
 import com.david.caterest.mapper.UserMapper;
 import com.david.caterest.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.Arrays;
 
 import static com.david.caterest.entity.Role.USER;
 
@@ -31,7 +33,9 @@ public class AuthenticationService {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    public AuthenticationResponse register(UserSignUpDto userDto, MultipartFile profilePicture) {
+    public AuthenticationResponse register(UserSignUpDto userDto,
+                                           MultipartFile profilePicture,
+                                           HttpServletResponse response) {
 
         User user = userMapper.toUser(userDto);
         userService.setUserProfilePicture(user, profilePicture);
@@ -43,15 +47,16 @@ public class AuthenticationService {
 
         userRepository.save(user);
 
-        String jwtToken = jwtService.generateToken(user);
+        addAuthenticationCookies(response, user);
 
         return AuthenticationResponse.builder()
                 .userId(user.getId())
-                .username(user.getUsername())
+                .username(user.getDisplayName())
                 .build();
     }
 
-    public AuthenticationResponse authenticate(UserLogInDto userDto, HttpServletResponse response) {
+    public AuthenticationResponse authenticate(UserLogInDto userDto,
+                                               HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDto.getEmail(),
@@ -62,8 +67,38 @@ public class AuthenticationService {
         User user = userRepository.findByEmail(userDto.getEmail())
                 .orElseThrow(); // todo: catch the exception and handle
 
+        addAuthenticationCookies(response, user);
+
+        return AuthenticationResponse.builder()
+                .userId(user.getId())
+                .username(user.getDisplayName())
+                .build();
+    }
+
+    public AuthenticationResponse logOut(HttpServletRequest request,
+                                         HttpServletResponse response) {
+        Cookie token = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
+                .findFirst()
+                .orElse(null);
+
+        if (token != null) {
+            token.setValue(null);
+            token.setMaxAge(0);
+            token.setPath("/");
+            response.addCookie(token);
+
+            return AuthenticationResponse.builder()
+                    .userId(0L)
+                    .username("")
+                    .build();
+        }
+
+        return null;
+    }
+
+    private void addAuthenticationCookies(HttpServletResponse response, User user) {
         String jwt = jwtService.generateToken(user);
-        int cookieMaxAge = 60 * 24;
+        int cookieMaxAge = (int)(60 * 24);
 
         Cookie cookie = new Cookie("token", jwt);
         cookie.setHttpOnly(true);
@@ -76,13 +111,8 @@ public class AuthenticationService {
         expirationCookie.setHttpOnly(false);
         expirationCookie.setDomain("localhost");
         expirationCookie.setPath("/");
-        expirationCookie.setMaxAge(60 * 30);
+        expirationCookie.setMaxAge(cookieMaxAge + 2 * 60);
         response.addCookie(expirationCookie);
-
-        return AuthenticationResponse.builder()
-                .userId(user.getId())
-                .username(user.getDisplayName())
-                .build();
     }
 
 }
