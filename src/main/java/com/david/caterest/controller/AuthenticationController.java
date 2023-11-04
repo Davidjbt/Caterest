@@ -21,7 +21,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestPart("user") UserSignUpDto user,
-                                                         @RequestPart("inpFile") MultipartFile profilePicture,
+                                                           @RequestPart("inpFile") MultipartFile profilePicture,
                                                            HttpServletResponse response) {
         return ResponseEntity.ok(authenticationService.register(user, profilePicture, response));
     }

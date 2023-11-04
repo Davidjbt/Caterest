@@ -4,7 +4,6 @@ import com.david.caterest.dto.user.UserLogInDto;
 import com.david.caterest.dto.user.UserProfileDto;
 import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.entity.User;
-import com.david.caterest.service.PictureService;
 import com.david.caterest.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +21,13 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final PictureService pictureService;
 
     @GetMapping("/user/{id}")
     public User getUser(@PathVariable String id) {
         return null;
     }
 
-    @GetMapping("/user/{userId}/profilePicture")
+    @GetMapping("/{userId}/profilePicture")
     public void renderUserProfilePicture(@PathVariable String userId, HttpServletResponse response) throws IOException {
         userService.renderProfilePicture(userId, response);
     }
