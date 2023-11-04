@@ -21,14 +21,15 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestPart("user") UserSignUpDto user,
-                                                         @RequestPart("inpFile") MultipartFile profilePicture) {
-        return ResponseEntity.ok(authenticationService.register(user, profilePicture));
+                                                         @RequestPart("inpFile") MultipartFile profilePicture,
+                                                           HttpServletResponse response) {
+        return ResponseEntity.ok(authenticationService.register(user, profilePicture, response));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody UserLogInDto request,
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody UserLogInDto userDto,
                                                                HttpServletResponse response) {
-        return ResponseEntity.ok(authenticationService.authenticate(request, response));
+        return ResponseEntity.ok(authenticationService.authenticate(userDto, response));
     }
 
     @PostMapping("/logOut")
