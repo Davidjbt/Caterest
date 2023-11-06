@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+### Generated H2 db files ###
+/src/main/resources/data/
