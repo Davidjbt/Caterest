@@ -6,7 +6,6 @@ import com.david.caterest.dto.user.UserSignUpDto;
 import com.david.caterest.entity.Role;
 import com.david.caterest.entity.User;
 import com.david.caterest.mapper.UserMapper;
-import com.david.caterest.repository.PictureRepository;
 import com.david.caterest.repository.UserRepository;
 import com.david.caterest.util.ImageRender;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +23,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final PictureRepository pictureRepository;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
