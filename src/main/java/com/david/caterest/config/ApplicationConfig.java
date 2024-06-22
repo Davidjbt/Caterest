@@ -1,6 +1,6 @@
 package com.david.caterest.config;
 
-import com.david.caterest.repository.UserRepository;
+import com.david.caterest.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
