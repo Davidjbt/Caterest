@@ -1,11 +1,10 @@
 package com.david.caterest.bootstrap;
 
-import com.david.caterest.entity.Picture;
-import com.david.caterest.entity.Role;
-import com.david.caterest.entity.User;
-import com.david.caterest.repository.PictureRepository;
-import com.david.caterest.repository.UserRepository;
-import com.david.caterest.service.ImageGetter;
+import com.david.caterest.picture.Picture;
+import com.david.caterest.picture.PictureRepository;
+import com.david.caterest.user.Role;
+import com.david.caterest.user.User;
+import com.david.caterest.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
