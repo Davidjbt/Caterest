@@ -1,10 +1,6 @@
-package com.david.caterest.service;
+package com.david.caterest.user;
 
-import com.david.caterest.dto.user.UserSignUpDto;
-import com.david.caterest.entity.Role;
-import com.david.caterest.entity.User;
-import com.david.caterest.mapper.UserMapper;
-import com.david.caterest.repository.UserRepository;
+import com.david.caterest.user.dto.UserSignUpDto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -67,4 +63,5 @@ class UserServiceTest {
         final User result = userService.addUser(userSignUpDto);
         assertThat(result).isEqualTo(user);
     }
+
 }
