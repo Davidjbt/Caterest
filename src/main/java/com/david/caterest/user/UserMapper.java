@@ -1,29 +1,30 @@
 package com.david.caterest.user;
 
-import com.david.caterest.user.dto.UserLogInDto;
+import com.david.caterest.picture.Picture;
 import com.david.caterest.user.dto.UserProfileDto;
 import com.david.caterest.user.dto.UserSignUpDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.ReportingPolicy;
+import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
     @Mappings({
             @Mapping(source = "username", target = "displayName"),
-            @Mapping(target = "profilePicture", ignore = true),
-            @Mapping(target = "password", ignore = true),
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "role", ignore = true),
-            @Mapping(target = "pictures", ignore = true)
+            @Mapping(target = "password", ignore = true)
     })
     User toUser(UserSignUpDto userDto);
-    @Mapping(source = "email", target = "displayName")
-    User toUser(UserLogInDto userDto);
 
-    UserSignUpDto toUserLogInDto(User user);
-    UserLogInDto toUserSignUpDto(User user);
+    @Mapping(source = "pictures", target = "pictures")
     UserProfileDto toUserProfileDto(User user);
+
+    default List<Long> map(List<Picture> pictures) {
+        return pictures.stream()
+                .map(Picture::getId)
+                .toList();
+    }
 
 }

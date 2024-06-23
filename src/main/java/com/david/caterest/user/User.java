@@ -2,9 +2,7 @@ package com.david.caterest.user;
 
 import com.david.caterest.picture.Picture;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,9 +13,11 @@ import java.util.List;
 
 @Setter
 @Getter
+@Builder
 @RequiredArgsConstructor
 @Entity
 @Table(name = "_user")
+@AllArgsConstructor
 public class User implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
