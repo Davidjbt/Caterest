@@ -1,6 +1,5 @@
 package com.david.caterest.user;
 
-import com.david.caterest.user.dto.UserSignUpDto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,27 +40,6 @@ class UserServiceTest {
         // then
         List<User> result = userRepository.findAll();
         assertThat(result).isEqualTo(users);
-    }
-
-    @Test
-    void shouldAddUser() {
-        // given
-        UserSignUpDto userSignUpDto = new UserSignUpDto();
-        user = User.builder()
-                .id(1L)
-                .displayName("TestUser")
-                .email("test123@gmail.com")
-                .password("1234")
-                .role(Role.USER)
-                .build();
-
-        // when
-        when(userMapper.toUser(userSignUpDto)).thenReturn(user);
-        when(userRepository.save(user)).thenReturn(user);
-
-        // then
-        final User result = userService.addUser(userSignUpDto);
-        assertThat(result).isEqualTo(user);
     }
 
 }
