@@ -30,7 +30,7 @@ public class PictureController {
     public void postPicture(@RequestPart("pictureDetails") PictureDetailsDto picturePostDto,
                             @RequestPart("inpFile") MultipartFile image,
                             HttpServletRequest request) {
-        pictureService.postPicture(picturePostDto, image, request);
+        pictureService.savePicture(picturePostDto, image, request);
     }
 
 }

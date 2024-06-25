@@ -1,13 +1,9 @@
 package com.david.caterest.user;
 
-import com.david.caterest.user.dto.UserLogInDto;
 import com.david.caterest.user.dto.UserProfileDto;
-import com.david.caterest.user.dto.UserSignUpDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
@@ -35,29 +31,10 @@ public class UserController {
         return userService.findMatchingUsers(query);
     }
 
-
-    @GetMapping("/new")
-    public UserSignUpDto newUser() {
-        return new UserSignUpDto();
-    }
-
-    @GetMapping("/list")
-    public String getUsersList(Model model) {
-        model.addAttribute("users", userService.findAll());
-
-        return "user/list";
-    }
-
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<String> handleConflictError(ResponseStatusException exception) {
         // todo figure out ResponseStatusException
         return ResponseEntity.status(exception.getStatusCode()).body(exception.getMessage());
-    }
-
-    @PostMapping("/testing")
-    public ResponseEntity<?> testing(@ModelAttribute UserLogInDto user) {
-        System.out.println(user.toString());
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @GetMapping("/profile/{displayName}")

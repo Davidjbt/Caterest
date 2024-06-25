@@ -1,9 +1,6 @@
 package com.david.caterest.user;
 
-import com.david.caterest.picture.PictureRepository;
-import com.david.caterest.user.dto.UserDto;
 import com.david.caterest.user.dto.UserProfileDto;
-import com.david.caterest.user.dto.UserSignUpDto;
 import com.david.caterest.util.ImageRender;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,47 +17,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final PictureRepository pictureRepository;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
-    @Override
-    public List<UserDto> findAll() {
-//        return userRepository.findAll().stream().map(userMapper::entityToDto).collect(Collectors.toList());
-        return null;
-    }
-
-    public User addUser(UserSignUpDto userSignUpDto) {
-        User user = userMapper.toUser(userSignUpDto);
-
-        user.setRole(Role.USER);
-
-        return userRepository.save(user);
-    }
-
-    @Override
-    public UserDto findUserById(Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
-
-        //todo Implement 404 page using a handler
-        if (userOptional.isEmpty()) return null;
-
-//        return userMapper.entityToDto(userOptional.get());
-        return null;
-    }
-
-    public UserDto findUserByUsername(String username) {
-        Optional<User> userOptional = userRepository.findByDisplayName(username);
-
-//        return userMapper.entityToDto(userOptional.orElse(null));
-        return null;
-    }
-
-    public User findUserByEmail(String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-
-        return userOptional.orElse(null);
-    }
 
     @Transactional
     public void setUserProfilePicture(User user, MultipartFile file) {
@@ -81,11 +39,6 @@ public class UserServiceImpl implements UserService {
 
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public boolean doesUserExist(UserSignUpDto user) {
-        return userRepository.existsByEmail(user.getEmail()); // or username since the email will be used as the username from a spring security context.
     }
 
     @Override
