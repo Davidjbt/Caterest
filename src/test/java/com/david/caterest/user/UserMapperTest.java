@@ -1,12 +1,10 @@
 package com.david.caterest.user;
 
-
 import com.david.caterest.picture.Picture;
 import com.david.caterest.user.dto.UserProfileDto;
 import com.david.caterest.user.dto.UserSignUpDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,23 +27,15 @@ class UserMapperTest {
         dto.setEmail("juan.smith@gmail.com");
         dto.setPassword("juan123");
         dto.setBiography("Tester");
-        dto.setDateOfBirth(LocalDate.of(1990, 1, 1));
-        dto.setTelephoneNumber("123456789");
-        dto.setCity("Madrid");
-        dto.setCountry("Spain");
 
         User user = mapper.toUser(dto);
 
         assertThat(user.getDisplayName()).isEqualTo(dto.getUsername());
-        assertThat(user.getCountry()).isEqualTo(dto.getCountry());
         assertThat(user.getFirstName()).isEqualTo(dto.getFirstName());
         assertThat(user.getLastName()).isEqualTo(dto.getLastName());
         assertThat(user.getEmail()).isEqualTo(dto.getEmail());
         assertThat(user.getPassword()).isNull();
         assertThat(user.getBiography()).isEqualTo(dto.getBiography());
-        assertThat(user.getCity()).isEqualTo(dto.getCity());
-        assertThat(user.getTelephoneNumber()).isEqualTo(dto.getTelephoneNumber());
-        assertThat(user.getDateOfBirth()).isEqualTo(dto.getDateOfBirth());
     }
 
     @Test
