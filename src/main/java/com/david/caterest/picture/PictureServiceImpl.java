@@ -29,45 +29,9 @@ public class PictureServiceImpl implements PictureService {
     private final PictureMapper pictureMapper;
     private final JwtService jwtService;
 
-    @Override
-    public Picture findPictureById(Long id) {
-        Optional<Picture> picture = pictureRepository.findById(id);
-
-        //todo implement 404 page to display error.
-        if (picture.isEmpty()) return null;
-
-        return picture.get();
-    }
 
     public List<Picture> findAllPicturesByOrderByDateOfPostDesc() {
         return pictureRepository.findAllByOrderByDateOfPostDesc();
-    }
-
-    @Override
-    public Picture savePicture(Picture picture) {
-        return pictureRepository.save(picture);
-    }
-
-    @Override
-    @Transactional
-    public void saveImageFile(Picture picture, MultipartFile file) {
-
-        try {
-            // No need to deal with null case as this was checked before.
-            Byte[] byteObjects = new Byte[file.getBytes().length];
-
-            int i = 0;
-            for (byte b : file.getBytes()){
-                byteObjects[i++] = b;
-            }
-
-            picture.setImage(byteObjects);
-        } catch (IOException e) {
-            //todo handle better
-            log.error("Error occurred", e);
-
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -89,7 +53,7 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
-    public void postPicture(PictureDetailsDto picturePostDto, MultipartFile image, HttpServletRequest request) {
+    public void savePicture(PictureDetailsDto picturePostDto, MultipartFile image, HttpServletRequest request) {
         Cookie jwtCookie = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
                 .findFirst()
                 .orElse(null);
@@ -110,6 +74,28 @@ public class PictureServiceImpl implements PictureService {
                 pictureRepository.save(picture);
                 userRepository.save(user);
             }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void saveImageFile(Picture picture, MultipartFile file) {
+
+        try {
+            // No need to deal with null case as this was checked before.
+            Byte[] byteObjects = new Byte[file.getBytes().length];
+
+            int i = 0;
+            for (byte b : file.getBytes()){
+                byteObjects[i++] = b;
+            }
+
+            picture.setImage(byteObjects);
+        } catch (IOException e) {
+            //todo handle better
+            log.error("Error occurred", e);
+
+            e.printStackTrace();
         }
     }
 
