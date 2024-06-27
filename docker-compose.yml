@@ -1,0 +1,27 @@
+services:
+  mysql:
+    container_name: my-mysql
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: caterest
+    networks:
+      - my-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 10s
+      retries: 10
+  spring-boot-app:
+    container_name: spring-caterest
+    image: spring/caterest
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+    depends_on:
+      mysql:
+          condition: service_healthy
+networks:
+  my-network:
+    driver: bridge
+

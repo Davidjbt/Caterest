@@ -24,18 +24,19 @@ public class DataLoader implements CommandLineRunner {
         this.passwordEncoder = passwordEncoder;
     }
 
+    private final static String IMAGES_FOLDER_PATH = "/static/images/";
+
     @Override
     public void run(String... args) throws Exception {
         User david = new User();
         userRepository.save(david);
-
 
         david.setDisplayName("DavidJ");
         david.setEmail("test123@gmail.com");
         david.setPassword(passwordEncoder.encode("1234"));
         david.setBiography("Albert Einstein was born at Ulm, in Württemberg, Germany, on March 14, 1879. Six weeks later the family moved to Munich, where he later on began his schooling at the Luitpold Gymnasium.");
 
-        david.setProfilePicture(ImageGetter.getImage("src/main/resources/static/images/Albert_Einstein_Head.jpg"));
+        david.setProfilePicture(ImageGetter.getImage(IMAGES_FOLDER_PATH + "Albert_Einstein_Head.jpg"));
         david.setRole(Role.USER);
 
         Picture testPicture1 = new Picture();
@@ -48,21 +49,21 @@ public class DataLoader implements CommandLineRunner {
 
         testPicture1.setDescription("Test picture 1");
         testPicture1.setDateOfPost(LocalDateTime.of(2022, 10, 21, 14, 1));
-        Byte[] testImage1 = ImageGetter.getImage("src/main/resources/static/images/test1.jpg");
+        Byte[] testImage1 = ImageGetter.getImage(IMAGES_FOLDER_PATH + "test1.jpg");
         testPicture1.setImage(testImage1);
         david.getPictures().add(testPicture1);
         testPicture1.setUser(david);
 
         testPicture2.setDescription("Test picture 2");
         testPicture2.setDateOfPost(LocalDateTime.of(2022, 10, 23, 12, 0));
-        Byte[] testImage2 = ImageGetter.getImage("src/main/resources/static/images/test2.jpg");
+        Byte[] testImage2 = ImageGetter.getImage(IMAGES_FOLDER_PATH + "test2.jpg");
         testPicture2.setImage(testImage2);
         david.getPictures().add(testPicture2);
         testPicture2.setUser(david);
 
         testPicture3.setDescription("Test picture 3");
         testPicture3.setDateOfPost(LocalDateTime.of(2022, 10, 25, 21, 41));
-        Byte[] testImage3 = ImageGetter.getImage("src/main/resources/static/images/test3.jpg");
+        Byte[] testImage3 = ImageGetter.getImage(IMAGES_FOLDER_PATH + "test3.jpg");
         testPicture3.setImage(testImage3);
         david.getPictures().add(testPicture3);
         testPicture3.setUser(david);
