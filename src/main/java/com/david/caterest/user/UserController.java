@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/find")
     public List<UserProfileDto> findMatchingUsers(@RequestParam String query) {
-        return userService.findMatchingUsers(query);
+        return userService.findUsersByMatchingDisplayName(query);
     }
 
     @ExceptionHandler(ResponseStatusException.class)

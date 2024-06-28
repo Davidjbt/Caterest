@@ -20,11 +20,27 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    @Override
+    public UserProfileDto findUserProfileDetailsByDisplayName(String displayName) {
+        Optional<User> user = userRepository.findByDisplayName(displayName);
+
+        if (user.isEmpty()) return null; //todo handle better
+
+        return userMapper.toUserProfileDto(user.get());
+    }
+
+    @Override
+    public List<UserProfileDto> findUsersByMatchingDisplayName(String displayName) {
+        return userRepository.findByDisplayNameContainsIgnoreCase(displayName).stream()
+                .map(user -> userMapper.toUserProfileDto(user))
+                .toList();
+    }
+
     @Transactional
     public void setUserProfilePicture(User user, MultipartFile file) {
 
         try {
-            // No need to deal with null case as this was checked before.
+            // todo Handle if either user or file are null.
             Byte[] byteObjects = new Byte[file.getBytes().length];
 
             int i = 0;
@@ -48,22 +64,6 @@ public class UserServiceImpl implements UserService {
         if (user.isEmpty()) return; // todo handle better
 
         ImageRender.renderImage(response, user.get().getProfilePicture());
-    }
-
-    @Override
-    public UserProfileDto findUserProfileDetailsByDisplayName(String displayName) {
-        Optional<User> user = userRepository.findByDisplayName(displayName);
-
-        if (user.isEmpty()) return null; //todo handle better
-
-        return userMapper.toUserProfileDto(user.get());
-    }
-
-    @Override
-    public List<UserProfileDto> findMatchingUsers(String query) {
-        return userRepository.findByDisplayNameContainsIgnoreCase(query).stream()
-                .map(user -> userMapper.toUserProfileDto(user))
-                .toList();
     }
 
 }
