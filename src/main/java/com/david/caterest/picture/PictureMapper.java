@@ -1,21 +1,13 @@
 package com.david.caterest.picture;
 
 import com.david.caterest.picture.dto.PictureDetailsDto;
+import com.david.caterest.picture.dto.PicturePostDto;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PictureMapper {
 
     PictureDetailsDto toPicturePostDto(Picture picture);
-
-    @Mappings({
-            @Mapping(target = "user", ignore = true),
-            @Mapping(target = "image", ignore = true),
-            @Mapping(target = "dateOfPost", ignore = true),
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "comments", ignore = true)
-    })
-    Picture toPicture(PictureDetailsDto picturePostDto);
+    Picture toPicture(PicturePostDto picturePostDto);
 }

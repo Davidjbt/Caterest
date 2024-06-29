@@ -1,6 +1,7 @@
 package com.david.caterest.picture;
 
 import com.david.caterest.picture.dto.PictureDetailsDto;
+import com.david.caterest.picture.dto.PicturePostDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class PictureController {
     }
 
     @PostMapping("/post")
-    public void postPicture(@RequestPart("pictureDetails") PictureDetailsDto picturePostDto,
+    public void postPicture(@RequestPart("pictureDetails") PicturePostDto picturePostDto,
                             @RequestPart("inpFile") MultipartFile image,
                             HttpServletRequest request) {
         pictureService.savePicture(picturePostDto, image, request);

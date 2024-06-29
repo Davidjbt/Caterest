@@ -2,6 +2,7 @@ package com.david.caterest.picture;
 
 import com.david.caterest.config.JwtService;
 import com.david.caterest.picture.dto.PictureDetailsDto;
+import com.david.caterest.picture.dto.PicturePostDto;
 import com.david.caterest.user.User;
 import com.david.caterest.user.UserRepository;
 import com.david.caterest.util.ImageRender;
@@ -53,7 +54,7 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
-    public void savePicture(PictureDetailsDto picturePostDto, MultipartFile image, HttpServletRequest request) {
+    public void savePicture(PicturePostDto picturePostDto, MultipartFile image, HttpServletRequest request) {
         Cookie jwtCookie = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
                 .findFirst()
                 .orElse(null);
