@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -31,12 +32,14 @@ public class PictureServiceImpl implements PictureService {
     private final JwtService jwtService;
 
 
-    public List<Picture> findAllPicturesByOrderByDateOfPostDesc() {
-        return pictureRepository.findAllByOrderByDateOfPostDesc();
+    public List<Long> findAllPictureIdsOrderedByDateDesc() {
+        return pictureRepository.findAllByOrderByDateOfPostDesc().stream()
+                .map(p -> p.getId())
+                .toList();
     }
 
     @Override
-    public PictureDetailsDto findPostDetailsById(String id) {
+    public PictureDetailsDto findPictureDetailsById(String id) {
         Optional<Picture> picture = pictureRepository.findById(Long.valueOf(id));
 
         if (picture.isEmpty()) return null; //todo handle better
@@ -48,7 +51,7 @@ public class PictureServiceImpl implements PictureService {
     public void renderPicture(String id, HttpServletResponse response) throws IOException {
         Optional<Picture> picture = pictureRepository.findById(Long.valueOf(id));
 
-        if (picture.isEmpty()) return;
+        if (picture.isEmpty()) throw new IOException("Picture not found");
 
         ImageRender.renderImage(response, picture.get().getImage());
     }
@@ -78,10 +81,8 @@ public class PictureServiceImpl implements PictureService {
         }
     }
 
-    @Override
     @Transactional
-    public void saveImageFile(Picture picture, MultipartFile file) {
-
+    protected void saveImageFile(Picture picture, MultipartFile file) {
         try {
             // No need to deal with null case as this was checked before.
             Byte[] byteObjects = new Byte[file.getBytes().length];
