@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
     UserProfileDto findUserProfileDetailsByDisplayName(String displayName);
-    List<UserProfileDto> findMatchingUsers(String query);
+    List<UserProfileDto> findUsersByMatchingDisplayName(String displayName);
     void setUserProfilePicture(User user, MultipartFile file);
     void renderProfilePicture(String id, HttpServletResponse response) throws IOException;
 }

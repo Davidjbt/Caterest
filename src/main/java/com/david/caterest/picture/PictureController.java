@@ -1,11 +1,13 @@
 package com.david.caterest.picture;
 
 import com.david.caterest.picture.dto.PictureDetailsDto;
+import com.david.caterest.picture.dto.PicturePostDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 
 @RestController
@@ -23,11 +25,11 @@ public class PictureController {
 
     @GetMapping("/post/{pictureId}")
     public PictureDetailsDto post(@PathVariable String pictureId) {
-        return pictureService.findPostDetailsById(pictureId);
+        return pictureService.findPictureDetailsById(pictureId);
     }
 
     @PostMapping("/post")
-    public void postPicture(@RequestPart("pictureDetails") PictureDetailsDto picturePostDto,
+    public void postPicture(@RequestPart("pictureDetails") PicturePostDto picturePostDto,
                             @RequestPart("inpFile") MultipartFile image,
                             HttpServletRequest request) {
         pictureService.savePicture(picturePostDto, image, request);
