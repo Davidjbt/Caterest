@@ -8,12 +8,14 @@ services:
     networks:
       - my-network
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       timeout: 10s
       retries: 10
-  spring-boot-app:
-    container_name: spring-caterest
-    image: spring/caterest
+      interval: 10s
+      start_period: 10s
+  caterest:
+    container_name: caterest_service
+    image: davidcodin/caterest:1.0.0
     ports:
       - "8080:8080"
     networks:
@@ -21,6 +23,8 @@ services:
     depends_on:
       mysql:
           condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/caterest
 networks:
   my-network:
     driver: bridge

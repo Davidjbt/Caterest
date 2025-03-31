@@ -5,6 +5,7 @@ import com.david.caterest.user.dto.UserSignUpDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AuthenticationResponse> register(@RequestPart("user") UserSignUpDto user,
                                                            @RequestPart("inpFile") MultipartFile profilePicture,
                                                            HttpServletResponse response) {

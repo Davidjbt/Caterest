@@ -11,6 +11,7 @@
     <groupId>com.david</groupId>
     <artifactId>Caterest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>Caterest</name>
     <description>Caterest</description>
     <properties>
@@ -135,6 +136,16 @@
                         </path>
                         <!-- other annotation processors -->
                     </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <to>
+                        <image>davidcodin/caterest:1.0.0</image>
+                    </to>
                 </configuration>
             </plugin>
         </plugins>
